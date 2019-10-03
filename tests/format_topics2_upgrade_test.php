@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * format_topics2 unit tests for upgradelib
+ * format_weeks2 unit tests for upgradelib
  *
- * @package    format_topics2
+ * @package    format_weeks2
  * @copyright  2015 Marina Glancy
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -29,13 +29,13 @@ require_once($CFG->dirroot . '/course/lib.php');
 require_once($CFG->dirroot . '/course/format/topics2/db/upgradelib.php');
 
 /**
- * format_topics2 unit tests for upgradelib
+ * format_weeks2 unit tests for upgradelib
  *
- * @package    format_topics2
+ * @package    format_weeks2
  * @copyright  2017 Marina Glancy
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class format_topics2_upgrade_testcase extends advanced_testcase {
+class format_weeks2_upgrade_testcase extends advanced_testcase {
 
     /**
      * Test upgrade step to remove orphaned sections.
@@ -54,7 +54,7 @@ class format_topics2_upgrade_testcase extends advanced_testcase {
         // There are 6 sections in the course (0-section and sections 1, ... 5).
         $this->assertEquals(6, $DB->count_records('course_sections', ['course' => $course->id]));
 
-        format_topics2_upgrade_remove_numsections();
+        format_weeks2_upgrade_remove_numsections();
 
         // There are still 6 sections in the course.
         $this->assertEquals(6, $DB->count_records('course_sections', ['course' => $course->id]));
@@ -86,7 +86,7 @@ class format_topics2_upgrade_testcase extends advanced_testcase {
         // There are 21 sections in the second course.
         $this->assertEquals(21, $DB->count_records('course_sections', ['course' => $course2->id]));
 
-        format_topics2_upgrade_remove_numsections();
+        format_weeks2_upgrade_remove_numsections();
 
         // Two sections were deleted in the first course.
         $this->assertEquals(4, $DB->count_records('course_sections', ['course' => $course1->id]));
@@ -117,7 +117,7 @@ class format_topics2_upgrade_testcase extends advanced_testcase {
         // There are 6 sections.
         $this->assertEquals(6, $DB->count_records('course_sections', ['course' => $course->id]));
 
-        format_topics2_upgrade_remove_numsections();
+        format_weeks2_upgrade_remove_numsections();
 
         // One section was deleted and one hidden.
         $this->assertEquals(5, $DB->count_records('course_sections', ['course' => $course->id]));
@@ -145,7 +145,7 @@ class format_topics2_upgrade_testcase extends advanced_testcase {
         // There are 16 sections.
         $this->assertEquals(17, $DB->count_records('course_sections', ['course' => $course->id]));
 
-        format_topics2_upgrade_remove_numsections();
+        format_weeks2_upgrade_remove_numsections();
 
         // Confirm that the upgrade method added the missing empty sections.
         $this->assertEquals(19, $DB->count_records('course_sections', ['course' => $course->id]));

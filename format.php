@@ -17,7 +17,7 @@
 /**
  * Topics course format.  Display the whole course as "topics2" made of modules.
  *
- * @package format_topics2
+ * @package format_weeks2
  * @copyright 2006 The Open University
  * @author N.D.Freear@open.ac.uk, and others.
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -49,7 +49,7 @@ if (($marker >=0) && has_capability('moodle/course:setcurrentsection', $context)
 // Make sure section 0 is created.
 course_create_sections_if_missing($course, 0);
 
-$renderer = $PAGE->get_renderer('format_topics2');
+$renderer = $PAGE->get_renderer('format_weeks2');
 
 if (!empty($displaysection)) {
     $renderer->print_single_section_page($course, null, null, null, null, $displaysection);

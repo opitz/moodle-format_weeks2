@@ -17,7 +17,7 @@
 /**
  * Upgrade scripts for course format "Topics"
  *
- * @package    format_topics2
+ * @package    format_weeks2
  * @copyright  2017 Marina Glancy
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -25,12 +25,12 @@
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Upgrade script for format_topics2
+ * Upgrade script for format_weeks2
  *
  * @param int $oldversion the version we are upgrading from
  * @return bool result
  */
-function xmldb_format_topics2_upgrade($oldversion) {
+function xmldb_format_weeks2_upgrade($oldversion) {
     global $CFG, $DB;
 
     require_once($CFG->dirroot . '/course/format/topics2/db/upgradelib.php');
@@ -38,7 +38,7 @@ function xmldb_format_topics2_upgrade($oldversion) {
     if ($oldversion < 2017020200) {
 
         // Remove 'numsections' option and hide or delete orphaned sections.
-        format_topics2_upgrade_remove_numsections();
+        format_weeks2_upgrade_remove_numsections();
 
         upgrade_plugin_savepoint(true, 2017020200, 'format', 'topics2');
     }

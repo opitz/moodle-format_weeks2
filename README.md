@@ -1,4 +1,4 @@
-# moodle-format_topics2
+# moodle-format_weeks2
 This course format is based on the standard Moodle Topics format but adds tab-abilties to it!
 
 So initially the page rendering is identical to the standard Topics course format - it is then only in edit mode that you will discover some changes.

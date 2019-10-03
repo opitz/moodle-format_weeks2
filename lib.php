@@ -18,24 +18,24 @@
  * This file contains main class for the course format TabbedTopic
  *
  * @since     Moodle 2.0
- * @package   format_topics2
+ * @package   format_weeks2
  * @copyright 2018 Matthias Opitz
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 define('COURSE_DISPLAY_COLLAPSE', 2);
-require_once($CFG->dirroot. '/course/format/topics/lib.php');
+require_once($CFG->dirroot. '/course/format/weeks/lib.php');
 
 /**
- * Main class for the topics2 course format
+ * Main class for the weeks2 course format
  * with added tab-ability
  *
- * @package    format_topics2
+ * @package    format_weeks2
  * @copyright  2012 Marina Glancy / 2018 Matthias Opitz
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class format_topics2 extends format_topics {
+class format_weeks2 extends format_weeks {
 
     public function course_format_options($foreditform = false) {
         global $CFG, $COURSE, $DB;
@@ -53,17 +53,17 @@ class format_topics2 extends format_topics {
             $courseconfig = get_config('moodlecourse');
             $courseformatoptions = array(
                 'maxtabs' => array(
-                    'label' => get_string('maxtabs_label', 'format_topics2'),
+                    'label' => get_string('maxtabs_label', 'format_weeks2'),
                     'help' => 'maxtabs',
-                    'help_component' => 'format_topics2',
+                    'help_component' => 'format_weeks2',
                     'default' => (isset($CFG->max_tabs) ? $CFG->max_tabs : 5),
                     'type' => PARAM_INT,
 //                    'element_type' => 'hidden',
                 ),
                 'limittabname' => array(
-                    'label' => get_string('limittabname_label', 'format_topics2'),
+                    'label' => get_string('limittabname_label', 'format_weeks2'),
                     'help' => 'limittabname',
-                    'help_component' => 'format_topics2',
+                    'help_component' => 'format_weeks2',
                     'default' => 0,
                     'type' => PARAM_INT,
 //                    'element_type' => 'hidden',
@@ -87,7 +87,7 @@ class format_topics2 extends format_topics {
                     'element_attributes' => array(
                         array(
                             COURSE_DISPLAY_SINGLEPAGE => new lang_string('coursedisplay_single'),
-                            COURSE_DISPLAY_COLLAPSE => get_string('coursedisplay_collapse', 'format_topics2'),
+                            COURSE_DISPLAY_COLLAPSE => get_string('coursedisplay_collapse', 'format_weeks2'),
                             COURSE_DISPLAY_MULTIPAGE => new lang_string('coursedisplay_multi')
                         )
                     ),
@@ -95,31 +95,31 @@ class format_topics2 extends format_topics {
                     'help_component' => 'moodle',
                 ),
 //                'toggle' => array(
-//                    'label' => get_string('toggle_label', 'format_topics2'),
+//                    'label' => get_string('toggle_label', 'format_weeks2'),
 //                    'element_type' => 'advcheckbox',
 //                    'help' => 'toggle',
-//                    'help_component' => 'format_topics2',
+//                    'help_component' => 'format_weeks2',
 //                ),
 //                'toggle_all' => array(
-//                    'label' => get_string('toggle_all_label', 'format_topics2'),
+//                    'label' => get_string('toggle_all_label', 'format_weeks2'),
 //                    'element_type' => 'advcheckbox',
 //                    'help' => 'toggle_all',
-//                    'help_component' => 'format_topics2',
+//                    'help_component' => 'format_weeks2',
 //                ),
 
                 'section0_ontop' => array(
-                    'label' => get_string('section0_label', 'format_topics2'),
+                    'label' => get_string('section0_label', 'format_weeks2'),
                     'element_type' => 'advcheckbox',
                     'default' => 0,
                     'help' => 'section0',
-                    'help_component' => 'format_topics2',
+                    'help_component' => 'format_weeks2',
                     'element_type' => 'hidden',
                 ),
                 'single_section_tabs' => array(
-                    'label' => get_string('single_section_tabs_label', 'format_topics2'),
+                    'label' => get_string('single_section_tabs_label', 'format_weeks2'),
                     'element_type' => 'advcheckbox',
                     'help' => 'single_section_tabs',
-                    'help_component' => 'format_topics2',
+                    'help_component' => 'format_weeks2',
                 ),
             );
 
@@ -127,7 +127,7 @@ class format_topics2 extends format_topics {
             $courseformatoptions['tab_seq'] = array('default' => '','type' => PARAM_TEXT,'label' => '','element_type' => 'hidden',);
 
             // now loop through the tabs but don't show them as we only need the DB records...
-            $courseformatoptions['tab0_title'] = array('default' => get_string('tabzero_title', 'format_topics2'),'type' => PARAM_TEXT,'label' => '','element_type' => 'hidden',);
+            $courseformatoptions['tab0_title'] = array('default' => get_string('tabzero_title', 'format_weeks2'),'type' => PARAM_TEXT,'label' => '','element_type' => 'hidden',);
             $courseformatoptions['tab0'] = array('default' => "",'type' => PARAM_TEXT,'label' => '','element_type' => 'hidden',);
 
             for ($i = 1; $i <= $max_tabs; $i++) {
@@ -189,7 +189,7 @@ class format_topics2 extends format_topics {
 
         // For show/hide actions call the parent method and return the new content for .section_availability element.
         $rv = parent::section_action($section, $action, $sr);
-        $renderer = $PAGE->get_renderer('format_topics2');
+        $renderer = $PAGE->get_renderer('format_weeks2');
         $rv['section_availability'] = $renderer->section_availability($this->get_section($section));
         return $rv;
     }
@@ -353,13 +353,13 @@ class format_topics2 extends format_topics {
  * @param mixed $newvalue
  * @return \core\output\inplace_editable
  */
-function format_topics2_inplace_editable($itemtype, $itemid, $newvalue) {
+function format_weeks2_inplace_editable($itemtype, $itemid, $newvalue) {
     global $DB, $CFG;
     require_once($CFG->dirroot . '/course/lib.php');
     if ($itemtype === 'sectionname' || $itemtype === 'sectionnamenl') {
         $section = $DB->get_record_sql(
             'SELECT s.* FROM {course_sections} s JOIN {course} c ON s.course = c.id WHERE s.id = ? AND c.format = ?',
-            array($itemid, 'topics2'), MUST_EXIST);
+            array($itemid, 'weeks2'), MUST_EXIST);
         return course_get_format($section->course)->inplace_editable_update_section_name($section, $itemtype, $newvalue);
     }
     // deal with inplace changes of a tab name
@@ -380,7 +380,7 @@ function format_topics2_inplace_editable($itemtype, $itemid, $newvalue) {
         $DB->update_record('course_format_options', array('id' => $record->id, 'value' => $newvalue));
 
         // Prepare the element for the output ():
-        $output = new \core\output\inplace_editable('format_topics2', 'tabname', $record->id,
+        $output = new \core\output\inplace_editable('format_weeks2', 'tabname', $record->id,
             true,
             format_string($newvalue), $newvalue, 'Edit tab name',  'New value for ' . format_string($newvalue));
 

@@ -16,14 +16,14 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'format_topics2', language 'en', branch 'MOODLE_34_STABLE'
+ * Strings for component 'format_weeks2', language 'en', branch 'MOODLE_34_STABLE'
  *
- * @package   format_topics2
+ * @package   format_weeks2
  * @copyright 2019 onwards Matthias Opitz  (opitz@qmx.de)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'Topics2 format';
+$string['pluginname'] = 'Weeks2 format';
 
 $string['alttext'] = 'Alt text';
 $string['currentimage'] = 'Current image';
@@ -38,14 +38,14 @@ $string['shownewsfull'] = 'I want to display a shortened version of news and ann
 $string['statictext'] = 'I want to display some static text';
 $string['usestatictext'] = 'Use static text instead of Module Announcements';
 
-$string['currentsection'] = 'This topic';
-$string['editsection'] = 'Edit topic';
-$string['deletesection'] = 'Delete topic';
-$string['sectionname'] = 'Topic';
+$string['currentsection'] = 'This week';
+$string['editsection'] = 'Edit week';
+$string['deletesection'] = 'Delete week';
+$string['sectionname'] = 'Week';
 $string['section0name'] = 'General';
-$string['hidefromothers'] = 'Hide topic';
-$string['showfromothers'] = 'Show topic';
-$string['addsections'] = 'Add Topics';
+$string['hidefromothers'] = 'Hide week';
+$string['showfromothers'] = 'Show week';
+$string['addsections'] = 'Add Weeks';
 
 // tab related strings
 $string['modulecontent'] = 'Module Content';
@@ -57,7 +57,7 @@ $string['toggle_help'] = 'When checked sections may be collapsed/expanded by cli
 
 $string['toggle_all'] = 'Enable "Toggle all" floating menu';
 $string['toggle_all_label'] = 'Enable "Toggle all" floating menu';
-$string['toggle_all_help'] = 'When checked a floating menu with 2 toggle buttons to collapse or expand all topics will be shown at the right side of the screen.<br>Only effective while collapsing sections are enabled';
+$string['toggle_all_help'] = 'When checked a floating menu with 2 toggle buttons to collapse or expand all weeks will be shown at the right side of the screen.<br>Only effective while collapsing sections are enabled';
 
 $string['maxtabs'] = 'Number of Tabs';
 $string['maxtabs_label'] = 'Number of Tabs';
@@ -72,19 +72,19 @@ $string['section0_label'] = 'Show Topic 0 above all tabs';
 $string['section0_help'] = 'When checked topic 0 is always shown above the tabs.';
 
 $string['single_section_tabs'] = 'Use section name as tab name for single sections';
-$string['single_section_tabs_label'] = 'Use topic name as tab name for single topics';
-$string['single_section_tabs_help'] = 'When checked tabs with a single topic will use the topic name as tab name.';
+$string['single_section_tabs_label'] = 'Use week name as tab name for single weeks';
+$string['single_section_tabs_help'] = 'When checked tabs with a single week will use the week name as tab name.';
 
 $string['tabname'] = 'Tab';
 $string['tabzero_title'] = 'Module Content';
 $string['tabtitle_edithint'] = 'Edit tab name';
 $string['tabtitle_editlabel'] = 'New value for {a}';
 
-$string['hidden_tab_hint'] = 'This tab contains only hidden topics and will not be shown to students';
-$string['tooltip_open'] = 'Click to collapse. ALT-click to collapse all topics.';
-$string['tooltip_closed'] = 'Click to expand. ALT-click to expand all topics.';
-$string['tooltip_open_all'] = 'Expand all topics';
-$string['tooltip_close_all'] = 'Collapse all topics';
+$string['hidden_tab_hint'] = 'This tab contains only hidden weeks and will not be shown to students';
+$string['tooltip_open'] = 'Click to collapse. ALT-click to collapse all weeks.';
+$string['tooltip_closed'] = 'Click to expand. ALT-click to expand all weeks.';
+$string['tooltip_open_all'] = 'Expand all weeks';
+$string['tooltip_close_all'] = 'Collapse all weeks';
 $string['tooltip_goto_top'] = 'Go to the top of the page';
 
 $string['coursedisplay_collapse'] = 'Show collapsible sections on one page';

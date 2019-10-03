@@ -36,7 +36,7 @@ define(['jquery', 'jqueryui'], function($) {
                 // save the new tab data to the database
                 var courseid = $('#courseid').attr('courseid');
                 $.ajax({
-                    url: "format/topics2/ajax/update_tab_settings.php",
+                    url: "format/weeks2/ajax/update_tab_settings.php",
                     type: "POST",
                     data: {
                         'courseid': courseid,
@@ -269,7 +269,7 @@ define(['jquery', 'jqueryui'], function($) {
                         // X console.log("==> marking hidden tab " + tabid);
                         var self = $(this);
                         require(['core/str'], function(str) {
-                            var getTheString = str.get_string('hidden_tab_hint', 'format_topics2');
+                            var getTheString = str.get_string('hidden_tab_hint', 'format_weeks2');
                             $.when(getTheString).done(function(theString) {
                                 self.find('#not-shown-hint-' + tabid).remove();
                                 var theAppendix = '<i id="not-shown-hint-' + tabid + '" class="fa fa-info" title="' +
@@ -293,7 +293,7 @@ define(['jquery', 'jqueryui'], function($) {
                         // Restoring generic tab name
                         var genericTitle = $(this).attr('generic_title');
                         $.ajax({
-                            url: "format/topics2/ajax/update_tab_name.php",
+                            url: "format/weeks2/ajax/update_tab_name.php",
                             type: "POST",
                             data: {'courseid': courseid, 'tabid': tabid, 'tab_name': genericTitle},
                             success: function(result) {
@@ -601,7 +601,7 @@ define(['jquery', 'jqueryui'], function($) {
                 // Finally call php to write the data
                 var courseid = $('#courseid').attr('courseid');
                 $.ajax({
-                    url: "format/topics2/ajax/update_tab_seq.php",
+                    url: "format/weeks2/ajax/update_tab_seq.php",
                     type: "POST",
                     data: {'courseid': courseid, 'tab_seq': tabSeq, 'course_format_name': course_format_name},
 //                    Success: function() {
@@ -636,7 +636,7 @@ define(['jquery', 'jqueryui'], function($) {
 
 // ---------------------------------------------------------------------------------------------------------------------
             $(document).ready(function() {
-                // X console.log('=================< topics2/tabs.js >=================');
+                // X console.log('=================< weeks2/tabs.js >=================');
                 initFunctions();
 
                 // Show the edit menu for section-0

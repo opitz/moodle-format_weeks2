@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * format_topics2 related unit tests
+ * format_weeks2 related unit tests
  *
- * @package    format_topics2
+ * @package    format_weeks2
  * @copyright  2015 Marina Glancy
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -28,16 +28,16 @@ global $CFG;
 require_once($CFG->dirroot . '/course/lib.php');
 
 /**
- * format_topics2 related unit tests
+ * format_weeks2 related unit tests
  *
- * @package    format_topics2
+ * @package    format_weeks2
  * @copyright  2015 Marina Glancy
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class format_topics2_testcase extends advanced_testcase {
+class format_weeks2_testcase extends advanced_testcase {
 
     /**
-     * Tests for format_topics2::get_section_name method with default section names.
+     * Tests for format_weeks2::get_section_name method with default section names.
      */
     public function test_get_section_name() {
         global $DB;
@@ -61,7 +61,7 @@ class format_topics2_testcase extends advanced_testcase {
     }
 
     /**
-     * Tests for format_topics2::get_section_name method with modified section names.
+     * Tests for format_weeks2::get_section_name method with modified section names.
      */
     public function test_get_section_name_customised() {
         global $DB;
@@ -93,7 +93,7 @@ class format_topics2_testcase extends advanced_testcase {
     }
 
     /**
-     * Tests for format_topics2::get_default_section_name.
+     * Tests for format_weeks2::get_default_section_name.
      */
     public function test_get_default_section_name() {
         global $DB;
@@ -112,10 +112,10 @@ class format_topics2_testcase extends advanced_testcase {
         $courseformat = course_get_format($course);
         foreach ($coursesections as $section) {
             if ($section->section == 0) {
-                $sectionname = get_string('section0name', 'format_topics2');
+                $sectionname = get_string('section0name', 'format_weeks2');
                 $this->assertEquals($sectionname, $courseformat->get_default_section_name($section));
             } else {
-                $sectionname = get_string('sectionname', 'format_topics2') . ' ' . $section->section;
+                $sectionname = get_string('sectionname', 'format_weeks2') . ' ' . $section->section;
                 $this->assertEquals($sectionname, $courseformat->get_default_section_name($section));
             }
         }
@@ -137,7 +137,7 @@ class format_topics2_testcase extends advanced_testcase {
 
         // Call webservice without necessary permissions.
         try {
-            core_external::update_inplace_editable('format_topics2', 'sectionname', $section->id, 'New section name');
+            core_external::update_inplace_editable('format_weeks2', 'sectionname', $section->id, 'New section name');
             $this->fail('Exception expected');
         } catch (moodle_exception $e) {
             $this->assertEquals('Course or activity not accessible. (Not enrolled)',
@@ -148,7 +148,7 @@ class format_topics2_testcase extends advanced_testcase {
         $teacherrole = $DB->get_record('role', array('shortname' => 'editingteacher'));
         $this->getDataGenerator()->enrol_user($user->id, $course->id, $teacherrole->id);
 
-        $res = core_external::update_inplace_editable('format_topics2', 'sectionname', $section->id, 'New section name');
+        $res = core_external::update_inplace_editable('format_weeks2', 'sectionname', $section->id, 'New section name');
         $res = external_api::clean_returnvalue(core_external::update_inplace_editable_returns(), $res);
         $this->assertEquals('New section name', $res['value']);
         $this->assertEquals('New section name', $DB->get_field('course_sections', 'name', array('id' => $section->id)));
@@ -170,8 +170,8 @@ class format_topics2_testcase extends advanced_testcase {
 
         $section = $DB->get_record('course_sections', array('course' => $course->id, 'section' => 2));
 
-        // Call callback format_topics2_inplace_editable() directly.
-        $tmpl = component_callback('format_topics2', 'inplace_editable', array('sectionname', $section->id, 'Rename me again'));
+        // Call callback format_weeks2_inplace_editable() directly.
+        $tmpl = component_callback('format_weeks2', 'inplace_editable', array('sectionname', $section->id, 'Rename me again'));
         $this->assertInstanceOf('core\output\inplace_editable', $tmpl);
         $res = $tmpl->export_for_template($PAGE->get_renderer('core'));
         $this->assertEquals('Rename me again', $res['value']);

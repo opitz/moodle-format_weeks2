@@ -17,7 +17,7 @@
 /**
  * Renderer for outputting the topics2 course format.
  *
- * @package format_topics2
+ * @package format_weeks2
  * @copyright 2012 Dan Poltawski / 2018 Matthias Opitz
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @since Moodle 2.3
@@ -26,23 +26,23 @@
 
 defined('MOODLE_INTERNAL') || die();
 //require_once($CFG->dirroot.'/course/format/renderer.php');
-require_once($CFG->dirroot.'/course/format/topics/renderer.php');
+require_once($CFG->dirroot.'/course/format/weeks/renderer.php');
 
 /**
- * Basic renderer for topics2 format.
+ * Basic renderer for weeks2 format.
  * with added tab-ability
  *
  * @copyright 2018 Matthias Opitz
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class format_topics2_renderer extends format_topics_renderer {
+class format_weeks2_renderer extends format_weeks_renderer {
 
     /**
      * Generate the starting container html for a list of sections
      * @return string HTML to output.
      */
     protected function start_section_list() {
-        return html_writer::start_tag('ul', array('class' => 'topics topics2'));
+        return html_writer::start_tag('ul', array('class' => 'weeks weeks2 topics topics2'));
     }
 
     /**
@@ -122,8 +122,8 @@ class format_topics2_renderer extends format_topics_renderer {
 
     // Require the jQuery file for this class
     public function require_js() {
-        $this->page->requires->js_call_amd('format_topics2/tabs', 'init', array());
-        $this->page->requires->js_call_amd('format_topics2/toggle', 'init', array());
+        $this->page->requires->js_call_amd('format_weeks2/tabs', 'init', array());
+        $this->page->requires->js_call_amd('format_weeks2/toggle', 'init', array());
     }
 
     // Get the toggle sequence of a given course for the current user
@@ -173,7 +173,7 @@ class format_topics2_renderer extends format_topics_renderer {
             if (isset($tab)) {
                 $tab->id = "tab" . $i;
                 $tab->name = "tab" . $i;
-                $tab->generic_title = ($i === 0 ? get_string('tab0_generic_name', 'format_topics2'):'Tab '.$i);
+                $tab->generic_title = ($i === 0 ? get_string('tab0_generic_name', 'format_weeks2'):'Tab '.$i);
                 $tab->title = (isset($format_options['tab' . $i . '_title']) && $format_options['tab' . $i . '_title'] != '' ? $format_options['tab' . $i . '_title'] : $tab->generic_title);
                 $tab->sections = $tab_sections;
                 $tab->section_nums = $tab_section_nums;
@@ -256,7 +256,7 @@ class format_topics2_renderer extends format_topics_renderer {
                 $record->format = $format;
                 $record->section = 0;
                 $record->name = $tab->id.'_title';
-                $record->value = ($tab->id == 'tab0' ? get_string('tabzero_title', 'format_topics2') :'Tab '.substr($tab->id,3));
+                $record->value = ($tab->id == 'tab0' ? get_string('tabzero_title', 'format_weeks2') :'Tab '.substr($tab->id,3));
                 $DB->insert_record('course_format_options', $record);
             }
 
@@ -286,9 +286,9 @@ class format_topics2_renderer extends format_topics_renderer {
                 style="'.($PAGE->user_is_editing() ? 'cursor: move;' : '').'">';
         }
         // render the tab name as inplace_editable
-        $tmpl = new \core\output\inplace_editable('format_topics2', 'tabname', $itemid,
+        $tmpl = new \core\output\inplace_editable('format_weeks2', 'tabname', $itemid,
             $PAGE->user_is_editing(),
-            format_string($tab->title), $tab->title, get_string('tabtitle_edithint', 'format_topics2'),  get_string('tabtitle_editlabel', 'format_topics2', format_string($tab->title)));
+            format_string($tab->title), $tab->title, get_string('tabtitle_edithint', 'format_weeks2'),  get_string('tabtitle_editlabel', 'format_weeks2', format_string($tab->title)));
         $o .= $OUTPUT->render($tmpl);
         $o .= "</span>";
         $o .= html_writer::end_tag('li');
@@ -334,11 +334,11 @@ class format_topics2_renderer extends format_topics_renderer {
         if($format_options['section0_ontop']) {
             $thissection = $sections[0];
             $o .= html_writer::start_tag('div', array('id' => 'ontop_area', 'class' => 'section0_ontop'));
-            $o .= html_writer::start_tag('ul', array('id' => 'ontop_area', 'class' => 'topics2'));
+            $o .= html_writer::start_tag('ul', array('id' => 'ontop_area', 'class' => 'weeks2'));
             $o .= $this->render_section($course, $thissection, $format_options);
         } else {
             $o .= html_writer::start_tag('div', array('id' => 'ontop_area'));
-            $o .= html_writer::start_tag('ul', array('id' => 'ontop_area', 'class' => 'topics2'));
+            $o .= html_writer::start_tag('ul', array('id' => 'ontop_area', 'class' => 'weeks2'));
         }
 
 //        $o .= $this->end_section_list();
@@ -492,8 +492,8 @@ class format_topics2_renderer extends format_topics_renderer {
                 $toggle_seq = '';
             }
 
-            $tooltip_open = get_string('tooltip_open','format_topics2');
-            $tooltip_closed = get_string('tooltip_closed','format_topics2');
+            $tooltip_open = get_string('tooltip_open','format_weeks2');
+            $tooltip_closed = get_string('tooltip_closed','format_weeks2');
             if(isset($toggle_seq[$section->section]) && $toggle_seq[$section->section] === '0') {
                 $toggler = '<i class="toggler toggler_open fa fa-angle-down" title="'.$tooltip_open.'" style="cursor: pointer; display: none;"></i>';
                 $toggler .= '<i class="toggler toggler_closed fa fa-angle-right" title="'.$tooltip_closed.'" style="cursor: pointer;"></i>';

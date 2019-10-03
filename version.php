@@ -27,4 +27,4 @@ defined('MOODLE_INTERNAL') || die();
 
 $plugin->version   = 2019041100;        // The current plugin version (Date: YYYYMMDDXX).
 $plugin->requires  = 2016112900;        // Requires this Moodle version.
-$plugin->component = 'format_topics2';    // Full name of the plugin (used for diagnostics).
+$plugin->component = 'format_weeks2';    // Full name of the plugin (used for diagnostics).
