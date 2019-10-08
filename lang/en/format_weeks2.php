@@ -23,7 +23,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'Weeks2 format';
+$string['pluginname'] = 'Weekly2 format';
 
 $string['alttext'] = 'Alt text';
 $string['currentimage'] = 'Current image';
@@ -88,6 +88,9 @@ $string['tooltip_close_all'] = 'Collapse all weeks';
 $string['tooltip_goto_top'] = 'Go to the top of the page';
 
 $string['coursedisplay_collapse'] = 'Show collapsible sections on one page';
+
+$string['automaticenddate'] = 'Calculate the end date from the number of sections';
+$string['automaticenddate_help'] = 'If enabled, the end date for the course will be automatically calculated from the number of sections and the course start date.';
 
 $string['gnupf'] = 'Gnupf';
 

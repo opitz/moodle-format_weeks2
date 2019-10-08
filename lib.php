@@ -38,9 +38,86 @@ require_once($CFG->dirroot. '/course/format/weeks/lib.php');
 class format_weeks2 extends format_weeks {
 
     public function course_format_options($foreditform = false) {
+        global $CFG;
+        static $courseformatoptions = false;
+        if ($courseformatoptions === false) {
+            $courseconfig = get_config('moodlecourse');
+            $courseformatoptions = array(
+                'maxtabs' => array(
+                    'default' => (isset($CFG->max_tabs) ? $CFG->max_tabs : 5),
+                    'type' => PARAM_INT,
+                ),
+                'limittabname' => array(
+                    'default' => 0,
+                    'type' => PARAM_INT,
+                ),
+                'hiddensections' => array(
+                    'default' => $courseconfig->hiddensections,
+                    'type' => PARAM_INT,
+                ),
+                'coursedisplay' => array(
+                    'default' => $courseconfig->coursedisplay,
+                    'type' => PARAM_INT,
+                ),
+                'automaticenddate' => array(
+                    'default' => 1,
+                    'type' => PARAM_BOOL,
+                ),
+            );
+        }
+        if ($foreditform && !isset($courseformatoptions['coursedisplay']['label'])) {
+            $courseformatoptionsedit = array(
+                'maxtabs' => array(
+                    'label' => get_string('maxtabs_label', 'format_weeks2'),
+                    'help' => 'maxtabs',
+                    'help_component' => 'format_weeks2',
+//                    'element_type' => 'hidden',
+                ),
+                'limittabname' => array(
+                    'label' => get_string('limittabname_label', 'format_weeks2'),
+                    'help' => 'limittabname',
+                    'help_component' => 'format_weeks2',
+//                    'element_type' => 'hidden',
+                ),
+
+                'hiddensections' => array(
+                    'label' => new lang_string('hiddensections'),
+                    'help' => 'hiddensections',
+                    'help_component' => 'moodle',
+                    'element_type' => 'select',
+                    'element_attributes' => array(
+                        array(
+                            0 => new lang_string('hiddensectionscollapsed'),
+                            1 => new lang_string('hiddensectionsinvisible')
+                        )
+                    ),
+                ),
+                'coursedisplay' => array(
+                    'label' => new lang_string('coursedisplay'),
+                    'element_type' => 'select',
+                    'element_attributes' => array(
+                        array(
+                            COURSE_DISPLAY_SINGLEPAGE => new lang_string('coursedisplay_single'),
+                            COURSE_DISPLAY_COLLAPSE => get_string('coursedisplay_collapse', 'format_weeks2'),
+                            COURSE_DISPLAY_MULTIPAGE => new lang_string('coursedisplay_multi')
+                        )
+                    ),
+                    'help' => 'coursedisplay',
+                    'help_component' => 'moodle',
+                ),
+                'automaticenddate' => array(
+                    'label' => new lang_string('automaticenddate', 'format_weeks2'),
+                    'help' => 'automaticenddate',
+                    'help_component' => 'format_weeks2',
+                    'element_type' => 'advcheckbox',
+                )
+            );
+            $courseformatoptions = array_merge_recursive($courseformatoptions, $courseformatoptionsedit);
+        }
+        return $courseformatoptions;
+    }
+    public function course_format_options0($foreditform = false) {
         global $CFG, $COURSE, $DB;
-//        $max_tabs = (isset($CFG->max_tabs) ? $CFG->max_tabs : 5);
-//        $max_tabs = 9; // Currently there is a maximum of 9 tabs!
         $fo = $DB->get_records('course_format_options', array('courseid' => $COURSE->id));
         $format_options = array();
         foreach($fo as $o) {
@@ -93,6 +170,14 @@ class format_weeks2 extends format_weeks {
                     ),
                     'help' => 'coursedisplay',
                     'help_component' => 'moodle',
+                ),
+                'automaticenddate' => array(
+                    'default' => 1,
+                    'type' => PARAM_BOOL,
+                    'label' => get_string('automaticenddate', 'format_weeks2'),
+                    'help' => 'automaticenddate',
+                    'help_component' => 'format_weeks',
+                    'element_type' => 'advcheckbox',
                 ),
 //                'toggle' => array(
 //                    'label' => get_string('toggle_label', 'format_weeks2'),

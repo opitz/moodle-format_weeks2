@@ -19,7 +19,7 @@ M.course.format = M.course.format || {};
 M.course.format.get_config = function() {
     return {
         container_node : 'ul',
-        container_class : 'topics2',
+        container_class : 'weeks weeks2',
         section_node : 'li',
         section_class : 'section'
     };
