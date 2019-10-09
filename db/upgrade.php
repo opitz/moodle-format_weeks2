@@ -33,14 +33,14 @@ defined('MOODLE_INTERNAL') || die();
 function xmldb_format_weeks2_upgrade($oldversion) {
     global $CFG, $DB;
 
-    require_once($CFG->dirroot . '/course/format/topics2/db/upgradelib.php');
+    require_once($CFG->dirroot . '/course/format/weeks2/db/upgradelib.php');
 
     if ($oldversion < 2017020200) {
 
         // Remove 'numsections' option and hide or delete orphaned sections.
         format_weeks2_upgrade_remove_numsections();
 
-        upgrade_plugin_savepoint(true, 2017020200, 'format', 'topics2');
+        upgrade_plugin_savepoint(true, 2017020200, 'format', 'weeks2');
     }
 
     // Automatically generated Moodle v3.3.0 release upgrade line.
@@ -54,9 +54,9 @@ function xmldb_format_weeks2_upgrade($oldversion) {
         // During upgrade to Moodle 3.3 it could happen that general section (section 0) became 'invisible'.
         // It should always be visible.
         $DB->execute("UPDATE {course_sections} SET visible=1 WHERE visible=0 AND section=0 AND course IN
-        (SELECT id FROM {course} WHERE format=?)", ['topics2']);
+        (SELECT id FROM {course} WHERE format=?)", ['weeks2']);
 
-        upgrade_plugin_savepoint(true, 2018030900, 'format', 'topics2');
+        upgrade_plugin_savepoint(true, 2018030900, 'format', 'weeks2');
     }
 
     // Automatically generated Moodle v3.5.0 release upgrade line.

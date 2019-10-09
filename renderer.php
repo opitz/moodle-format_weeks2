@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Renderer for outputting the topics2 course format.
+ * Renderer for outputting the weeks2 course format.
  *
  * @package format_weeks2
  * @copyright 2012 Dan Poltawski / 2018 Matthias Opitz
@@ -42,7 +42,8 @@ class format_weeks2_renderer extends format_weeks_renderer {
      * @return string HTML to output.
      */
     protected function start_section_list() {
-        return html_writer::start_tag('ul', array('class' => 'weeks weeks2 topics topics2'));
+//        return html_writer::start_tag('ul', array('class' => 'weeks weeks2 topics topics2'));
+        return html_writer::start_tag('ul', array('class' => 'weeks weeks2'));
     }
 
     /**

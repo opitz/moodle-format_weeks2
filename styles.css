@@ -1,4 +1,4 @@
-.course-content ul.topics2 .tablink_not_yet {
+.course-content ul.weeks2 .tablink_not_yet {
     margin-right: 5px;
     padding-top: 5px;
     padding-left: 10px;
@@ -12,35 +12,35 @@
     cursor: pointer;
 }
 
-.course-content ul.topics2 .tablink.active {
+.course-content ul.weeks2 .tablink.active {
     background-color: #eeeeee !important;
 }
 
-.course-content ul.topics2 li.section .sectionname {
+.course-content ul.weeks2 li.section .sectionname {
     padding-top: 10px !important;
 }
 
-.course-content ul.topics2 li.section.ontop {
+.course-content ul.weeks2 li.section.ontop {
     border-bottom: 0px !important;
 }
 
-.course-content ul.topics2 li.section .fa-info {
+.course-content ul.weeks2 li.section .fa-info {
     padding-left: 5px;
 }
 
-.course-content ul.topics2 li.section .edit_only {
+.course-content ul.weeks2 li.section .edit_only {
     background-color: #FAFAFA;
 }
 
-.course-content ul.topics2 li.section .tabs {
+.course-content ul.weeks2 li.section .tabs {
     padding-left: 30px;
 }
 
-.course-content ul.topics2 li.section .toggler {
+.course-content ul.weeks2 li.section .toggler {
     color: grey;
 }
 
-.course-content ul.topics2 li.section .dropdown-menu {
+.course-content ul.weeks2 li.section .dropdown-menu {
     height: auto;
     max-height: 500px;
     overflow-x: hidden;

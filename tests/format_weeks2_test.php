@@ -46,7 +46,7 @@ class format_weeks2_testcase extends advanced_testcase {
         // Generate a course with 5 sections.
         $generator = $this->getDataGenerator();
         $numsections = 5;
-        $course = $generator->create_course(array('numsections' => $numsections, 'format' => 'topics2'),
+        $course = $generator->create_course(array('numsections' => $numsections, 'format' => 'weeks2'),
             array('createsections' => true));
 
         // Get section names for course.
@@ -70,7 +70,7 @@ class format_weeks2_testcase extends advanced_testcase {
         // Generate a course with 5 sections.
         $generator = $this->getDataGenerator();
         $numsections = 5;
-        $course = $generator->create_course(array('numsections' => $numsections, 'format' => 'topics2'),
+        $course = $generator->create_course(array('numsections' => $numsections, 'format' => 'weeks2'),
             array('createsections' => true));
 
         // Get section names for course.
@@ -102,7 +102,7 @@ class format_weeks2_testcase extends advanced_testcase {
         // Generate a course with 5 sections.
         $generator = $this->getDataGenerator();
         $numsections = 5;
-        $course = $generator->create_course(array('numsections' => $numsections, 'format' => 'topics2'),
+        $course = $generator->create_course(array('numsections' => $numsections, 'format' => 'weeks2'),
             array('createsections' => true));
 
         // Get section names for course.
@@ -131,7 +131,7 @@ class format_weeks2_testcase extends advanced_testcase {
         $this->resetAfterTest();
         $user = $this->getDataGenerator()->create_user();
         $this->setUser($user);
-        $course = $this->getDataGenerator()->create_course(array('numsections' => 5, 'format' => 'topics2'),
+        $course = $this->getDataGenerator()->create_course(array('numsections' => 5, 'format' => 'weeks2'),
             array('createsections' => true));
         $section = $DB->get_record('course_sections', array('course' => $course->id, 'section' => 2));
 
@@ -162,7 +162,7 @@ class format_weeks2_testcase extends advanced_testcase {
 
         $this->resetAfterTest();
         $user = $this->getDataGenerator()->create_user();
-        $course = $this->getDataGenerator()->create_course(array('numsections' => 5, 'format' => 'topics2'),
+        $course = $this->getDataGenerator()->create_course(array('numsections' => 5, 'format' => 'weeks2'),
             array('createsections' => true));
         $teacherrole = $DB->get_record('role', array('shortname' => 'editingteacher'));
         $this->getDataGenerator()->enrol_user($user->id, $course->id, $teacherrole->id);
@@ -200,7 +200,7 @@ class format_weeks2_testcase extends advanced_testcase {
 
         $this->setTimezone('UTC');
 
-        $params = array('format' => 'topics2', 'numsections' => 5, 'startdate' => 1445644800);
+        $params = array('format' => 'weeks2', 'numsections' => 5, 'startdate' => 1445644800);
         $course = $this->getDataGenerator()->create_course($params);
         $category = $DB->get_record('course_categories', array('id' => $course->category));
 
@@ -236,7 +236,7 @@ class format_weeks2_testcase extends advanced_testcase {
 
         // Generate a course with two sections (0 and 1) and two modules.
         $generator = $this->getDataGenerator();
-        $course1 = $generator->create_course(array('format' => 'topics2'));
+        $course1 = $generator->create_course(array('format' => 'weeks2'));
         course_create_sections_if_missing($course1, array(0, 1));
 
         $data = (object)['id' => $course1->id];

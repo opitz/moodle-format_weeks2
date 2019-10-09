@@ -26,7 +26,7 @@ defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
 require_once($CFG->dirroot . '/course/lib.php');
-require_once($CFG->dirroot . '/course/format/topics2/db/upgradelib.php');
+require_once($CFG->dirroot . '/course/format/weeks2/db/upgradelib.php');
 
 /**
  * format_weeks2 unit tests for upgradelib
@@ -45,10 +45,10 @@ class format_weeks2_upgrade_testcase extends advanced_testcase {
 
         $this->resetAfterTest(true);
 
-        $params = array('format' => 'topics2', 'numsections' => 5, 'startdate' => 1445644800);
+        $params = array('format' => 'weeks2', 'numsections' => 5, 'startdate' => 1445644800);
         $course = $this->getDataGenerator()->create_course($params);
         // This test is executed after 'numsections' option was already removed, add it manually.
-        $DB->insert_record('course_format_options', ['courseid' => $course->id, 'format' => 'topics2',
+        $DB->insert_record('course_format_options', ['courseid' => $course->id, 'format' => 'weeks2',
             'sectionid' => 0, 'name' => 'numsections', 'value' => '5']);
 
         // There are 6 sections in the course (0-section and sections 1, ... 5).
@@ -72,13 +72,13 @@ class format_weeks2_upgrade_testcase extends advanced_testcase {
         // Set default number of sections to 10.
         set_config('numsections', 10, 'moodlecourse');
 
-        $params1 = array('format' => 'topics2', 'numsections' => 5, 'startdate' => 1445644800);
+        $params1 = array('format' => 'weeks2', 'numsections' => 5, 'startdate' => 1445644800);
         $course1 = $this->getDataGenerator()->create_course($params1);
-        $params2 = array('format' => 'topics2', 'numsections' => 20, 'startdate' => 1445644800);
+        $params2 = array('format' => 'weeks2', 'numsections' => 20, 'startdate' => 1445644800);
         $course2 = $this->getDataGenerator()->create_course($params2);
         // This test is executed after 'numsections' option was already removed, add it manually and
         // set it to be 2 less than actual number of sections.
-        $DB->insert_record('course_format_options', ['courseid' => $course1->id, 'format' => 'topics2',
+        $DB->insert_record('course_format_options', ['courseid' => $course1->id, 'format' => 'weeks2',
             'sectionid' => 0, 'name' => 'numsections', 'value' => '3']);
 
         // There are 6 sections in the first course (0-section and sections 1, ... 5).
@@ -103,7 +103,7 @@ class format_weeks2_upgrade_testcase extends advanced_testcase {
 
         $this->resetAfterTest(true);
 
-        $params = array('format' => 'topics2', 'numsections' => 5, 'startdate' => 1445644800);
+        $params = array('format' => 'weeks2', 'numsections' => 5, 'startdate' => 1445644800);
         $course = $this->getDataGenerator()->create_course($params);
 
         // Add a module to the second last section.
@@ -111,7 +111,7 @@ class format_weeks2_upgrade_testcase extends advanced_testcase {
 
         // This test is executed after 'numsections' option was already removed, add it manually and
         // set it to be 2 less than actual number of sections.
-        $DB->insert_record('course_format_options', ['courseid' => $course->id, 'format' => 'topics2',
+        $DB->insert_record('course_format_options', ['courseid' => $course->id, 'format' => 'weeks2',
             'sectionid' => 0, 'name' => 'numsections', 'value' => '3']);
 
         // There are 6 sections.
@@ -134,12 +134,12 @@ class format_weeks2_upgrade_testcase extends advanced_testcase {
 
         $this->resetAfterTest(true);
 
-        $params = array('format' => 'topics2', 'numsections' => 16, 'startdate' => 1445644800);
+        $params = array('format' => 'weeks2', 'numsections' => 16, 'startdate' => 1445644800);
         $course = $this->getDataGenerator()->create_course($params);
 
         // This test is executed after 'numsections' option was already removed.
         // Set the 'numsections' course format value to 18, simulating the scenario in which there are fewer real sections.
-        $DB->insert_record('course_format_options', ['courseid' => $course->id, 'format' => 'topics2',
+        $DB->insert_record('course_format_options', ['courseid' => $course->id, 'format' => 'weeks2',
             'sectionid' => 0, 'name' => 'numsections', 'value' => '18']);
 
         // There are 16 sections.

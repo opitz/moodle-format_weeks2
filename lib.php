@@ -249,7 +249,7 @@ class format_weeks2 extends format_weeks {
 
         $tcsettings = $this->get_format_options();
         if ($section->section && ($action === 'setmarker' || $action === 'removemarker')) {
-            // Format 'topics2' allows to set and remove markers in addition to common section actions.
+            // Format 'weeks2' allows to set and remove markers in addition to common section actions.
             require_capability('moodle/course:setcurrentsection', context_course::instance($this->courseid));
             course_set_marker($this->courseid, ($action === 'setmarker') ? $section->section : 0);
             return null;

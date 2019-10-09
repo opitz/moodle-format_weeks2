@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Topics course format.  Display the whole course as "topics2" made of modules.
+ * Topics course format.  Display the whole course as "weeks2" made of modules.
  *
  * @package format_weeks2
  * @copyright 2006 The Open University
