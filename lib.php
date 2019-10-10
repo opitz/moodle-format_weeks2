@@ -37,7 +37,7 @@ require_once($CFG->dirroot. '/course/format/weeks/lib.php');
  */
 class format_weeks2 extends format_weeks {
 
-    public function course_format_options($foreditform = false) {
+    public function course_format_options1($foreditform = false) {
         global $CFG;
         static $courseformatoptions = false;
         if ($courseformatoptions === false) {
@@ -111,6 +111,134 @@ class format_weeks2 extends format_weeks {
                     'help_component' => 'format_weeks2',
                     'element_type' => 'advcheckbox',
                 )
+            );
+            $courseformatoptions = array_merge_recursive($courseformatoptions, $courseformatoptionsedit);
+        }
+        return $courseformatoptions;
+    }
+    public function course_format_options($foreditform = false) {
+        global $CFG, $COURSE, $DB;
+        $fo = $DB->get_records('course_format_options', array('courseid' => $COURSE->id));
+        $format_options = array();
+        foreach($fo as $o) {
+            $format_options[$o->name] = $o->value;
+        }
+
+        $max_tabs = ((isset($format_options['maxtabs']) && $format_options['maxtabs'] > 0) ? $format_options['maxtabs'] : (isset($CFG->max_tabs) ? $CFG->max_tabs : 9));
+        static $courseformatoptions = false;
+        if ($courseformatoptions === false) {
+            $courseconfig = get_config('moodlecourse');
+            $courseformatoptions = array(
+                'maxtabs' => array(
+                    'default' => (isset($CFG->max_tabs) ? $CFG->max_tabs : 5),
+                    'type' => PARAM_INT,
+                ),
+                'limittabname' => array(
+                    'default' => 0,
+                    'type' => PARAM_INT,
+                ),
+                'hiddensections' => array(
+                    'default' => $courseconfig->hiddensections,
+                    'type' => PARAM_INT,
+                ),
+                'coursedisplay' => array(
+                    'default' => $courseconfig->coursedisplay,
+                    'type' => PARAM_INT,
+                ),
+
+//                'automaticenddate' => array(
+//                    'default' => 1,
+//                    'type' => PARAM_BOOL,
+//                ),
+
+                'section0_ontop' => array(
+                    'default' => 0,
+                    'type' => PARAM_BOOL,
+                    'element_type' => 'hidden'
+                ),
+                'single_section_tabs' => array(
+                    'default' => 0,
+                    'type' => PARAM_BOOL,
+                    'element_type' => 'hidden'
+                ),
+
+            );
+        }
+
+        // the sequence in which the tabs will be displayed
+        $courseformatoptions['tab_seq'] = array('default' => '','type' => PARAM_TEXT,'label' => '','element_type' => 'hidden',);
+
+        // now loop through the tabs but don't show them as we only need the DB records...
+        $courseformatoptions['tab0_title'] = array('default' => get_string('tabzero_title', 'format_weeks2'),'type' => PARAM_TEXT,'label' => '','element_type' => 'hidden',);
+        $courseformatoptions['tab0'] = array('default' => "",'type' => PARAM_TEXT,'label' => '','element_type' => 'hidden',);
+
+        for ($i = 1; $i <= $max_tabs; $i++) {
+            $courseformatoptions['tab'.$i.'_title'] = array('default' => "Tab ".$i,'type' => PARAM_TEXT,'label' => '','element_type' => 'hidden',);
+            $courseformatoptions['tab'.$i] = array('default' => "",'type' => PARAM_TEXT,'label' => '','element_type' => 'hidden',);
+            $courseformatoptions['tab'.$i.'_sectionnums'] = array('default' => "",'type' => PARAM_TEXT,'label' => '','element_type' => 'hidden',);
+        }
+
+
+        if ($foreditform && !isset($courseformatoptions['coursedisplay']['label'])) {
+            $courseformatoptionsedit = array(
+                'maxtabs' => array(
+                    'label' => get_string('maxtabs_label', 'format_weeks2'),
+                    'help' => 'maxtabs',
+                    'help_component' => 'format_weeks2',
+//                    'element_type' => 'hidden',
+                ),
+                'limittabname' => array(
+                    'label' => get_string('limittabname_label', 'format_weeks2'),
+                    'help' => 'limittabname',
+                    'help_component' => 'format_weeks2',
+//                    'element_type' => 'hidden',
+                ),
+
+                'hiddensections' => array(
+                    'label' => new lang_string('hiddensections'),
+                    'help' => 'hiddensections',
+                    'help_component' => 'moodle',
+                    'element_type' => 'select',
+                    'element_attributes' => array(
+                        array(
+                            0 => new lang_string('hiddensectionscollapsed'),
+                            1 => new lang_string('hiddensectionsinvisible')
+                        )
+                    ),
+                ),
+                'coursedisplay' => array(
+                    'label' => new lang_string('coursedisplay'),
+                    'element_type' => 'select',
+                    'element_attributes' => array(
+                        array(
+                            COURSE_DISPLAY_SINGLEPAGE => new lang_string('coursedisplay_single'),
+                            COURSE_DISPLAY_COLLAPSE => get_string('coursedisplay_collapse', 'format_weeks2'),
+                            COURSE_DISPLAY_MULTIPAGE => new lang_string('coursedisplay_multi')
+                        )
+                    ),
+                    'help' => 'coursedisplay',
+                    'help_component' => 'moodle',
+                ),
+                'automaticenddate' => array(
+                    'default' => 1,
+                    'type' => PARAM_BOOL,
+                    'label' => new lang_string('automaticenddate', 'format_weeks2'),
+                    'help' => 'automaticenddate',
+                    'help_component' => 'format_weeks2',
+                    'element_type' => 'advcheckbox',
+                ),
+//                'section0_ontop' => array(
+//                    'label' => get_string('section0_label', 'format_weeks2'),
+//                    'help' => 'section0',
+//                    'help_component' => 'format_weeks2',
+//                    'element_type' => 'hidden',
+//                ),
+//                'single_section_tabs' => array(
+//                    'label' => get_string('single_section_tabs_label', 'format_weeks2'),
+//                    'element_type' => 'advcheckbox',
+//                    'help' => 'single_section_tabs',
+//                    'help_component' => 'format_weeks2',
+//                )
             );
             $courseformatoptions = array_merge_recursive($courseformatoptions, $courseformatoptionsedit);
         }
