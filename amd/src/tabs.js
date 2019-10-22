@@ -4,6 +4,43 @@ define(['jquery', 'jqueryui'], function($) {
         init: function() {
 
 // ---------------------------------------------------------------------------------------------------------------------
+            function insertTabIndex(element) {
+                // Inserts the tabindex from any active tab to its visible sections to make sure they will follow
+                // directly after the tab when navigating using the TAB key
+                var tabtabindex = element.attr('tabindex');
+                if (tabtabindex > 0) {
+                    $('.section.main:visible').each( function() {
+                        $(this).attr('tabindex',tabtabindex);
+                    });
+                }
+            }
+
+// ---------------------------------------------------------------------------------------------------------------------
+            function tabnav() {
+                // Supporting navigation using the keyboard
+                $(document).keyup(function(e) {
+                    var code = e.keyCode || e.which;
+                    var focused = $(':focus');
+                    // When using the TAB key to navigate the page actually click a tab when in focus to reveal its sections
+//                    if (code == '9') { // TAB key pressed
+//                        if ( typeof focused.attr('id') !== 'undefined' && focused.attr('id').indexOf("tab") > -1) {
+//                            focused.click();
+//                        }
+//                    }
+                    if (code == 13) { // ENTER key pressed
+                        // Click a focused tab by pressing ENTER
+                        if ( typeof focused.attr('id') !== 'undefined' && focused.attr('id').indexOf("tab") > -1) {
+                            focused.click();
+                        }
+                        // Toggle a focused section by pressing ENTER
+                        if ( typeof focused.attr('id') !== 'undefined' && focused.attr('id').indexOf("section") > -1) {
+                            focused.find('.toggler:visible').click();
+                        }
+                    }
+                });
+            }
+
+// ---------------------------------------------------------------------------------------------------------------------
             function add2tab(tabnum, sectionid, sectionnum) {
                 // Remove the section id and section number from any tab
                 $(".tablink").each(function() {
@@ -338,6 +375,8 @@ define(['jquery', 'jqueryui'], function($) {
                         // X console.log('--> tab0 is a single tab - hiding it');
                         $('.tabitem').hide();
                     }
+                    // this will make sure tab navigation goes from tab to its sections and then on to the next tab
+                    insertTabIndex($(this));
                 });
             };
 
@@ -359,69 +398,6 @@ define(['jquery', 'jqueryui'], function($) {
                     // X console.log('moving section '+sectionid+' from tab "'+activeTabId+'" to tab nr '+tabnum);
                     add2tab(tabnum, sectionid, sectionnum);
 
-                    $("#tab" + tabnum).click();
-                    $('#' + activeTabId).click();
-
-                    // Restore the section before moving it in case it was a single
-                    restoreTab($('#tab' + tabnum));
-
-                    // If the last section of a tab was moved click the target tab
-                    // otherwise click the active tab to refresh it
-                    var countableSections = $('li.section:visible').length - ($("#ontop_area").hasClass('section0_ontop') ? 1 : 0);
-                    // X console.log('---> visible sections = '+$('li.section:visible').length);
-                    // X console.log('---> countableSections = '+countableSections);
-                    if (countableSections > 0 && $('li.section:visible').length >= countableSections) {
-                        // X console.log('staying with the current tab (id = '+activeTabId+
-                        // X   ') as there are still '+$('li.section:visible').length+' sections left');
-                        $("#tab" + tabnum).click();
-                        $('#' + activeTabId).click();
-                    } else {
-                        // X console.log('no section in active tab id '+
-                        // X   activeTabId+' left - hiding it and following section to new tab nr '+tabnum);
-                        $("#tab" + tabnum).click();
-                        $('#' + activeTabId).parent().hide();
-                    }
-                });
-            };
-            var tabMove0 = function() {
-                $(".tab_mover").on('click', function() {
-                    var tabnum = $(this).attr('tabnr'); // This is the tab number where the section is moved to
-                    var sectionid = $(this).closest('li.section').attr('section-id');
-                    var sectionnum = $(this).closest('li.section').attr('id').substring(8);
-
-                    // X console.log('--> found section num: '+sectionnum);
-                    var activeTabId = $('.topictab.active').first().attr('id');
-
-                    if (typeof activeTabId == 'undefined') {
-                        activeTabId = 'tab0';
-                    }
-                    // X console.log('----');
-                    // X console.log('moving section '+sectionid+' from tab "'+activeTabId+'" to tab nr '+tabnum);
-
-                    // Remove the section id and section number from any tab
-                    $(".tablink").each(function() {
-                        $(this).attr('sections', $(this).attr('sections').replace("," + sectionid, ""));
-                        $(this).attr('sections', $(this).attr('sections').replace(sectionid + ",", ""));
-                        $(this).attr('sections', $(this).attr('sections').replace(sectionid, ""));
-
-                        $(this).attr('section_nums', $(this).attr('section_nums').replace("," + sectionnum, ""));
-                        $(this).attr('section_nums', $(this).attr('section_nums').replace(sectionnum + ",", ""));
-                        $(this).attr('section_nums', $(this).attr('section_nums').replace(sectionnum, ""));
-                    });
-                    // Add the sectionid to the new tab
-                    if (tabnum > 0) { // No need to store section ids for tab 0
-                        if ($("#tab" + tabnum).attr('sections').length === 0) {
-                            $("#tab" + tabnum).attr('sections', $("#tab" + tabnum).attr('sections') + sectionid);
-                        } else {
-                            $("#tab" + tabnum).attr('sections', $("#tab" + tabnum).attr('sections') + "," + sectionid);
-                        }
-                        if ($("#tab" + tabnum).attr('section_nums').length === 0) {
-                            $("#tab" + tabnum).attr('section_nums', $("#tab" + tabnum).attr('section_nums') + sectionnum);
-                        } else {
-                            $("#tab" + tabnum).attr('section_nums', $("#tab" + tabnum).attr('section_nums') + "," + sectionnum);
-                            // X console.log('---> section_nums: '+$("#tab"+tabnum).attr('section_nums'));
-                        }
-                    }
                     $("#tab" + tabnum).click();
                     $('#' + activeTabId).click();
 
@@ -559,6 +535,7 @@ define(['jquery', 'jqueryui'], function($) {
                 moveInline();
                 dropdownToggle();
                 set_numsections_cookie();
+                tabnav();
 //                Hover_tabname();
             };
 

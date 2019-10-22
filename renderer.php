@@ -267,6 +267,7 @@ class format_weeks2_renderer extends format_weeks_renderer {
             $itemid = false;
         }
 
+        $tabindex = ((int) substr($tab->id,3,1) +1)* 100;
         if ($tab->id == 'tab0') {
             $o .= '<span
                 data-toggle="tab" id="'.$tab->id.'"
@@ -275,6 +276,7 @@ class format_weeks2_renderer extends format_weeks_renderer {
                 class="tablink nav-link "
                 tab_title="'.$tab->title.'",
                 generic_title = "'.$tab->generic_title.'"
+                tabindex = "'.$tabindex.'"
                 >';
         } else {
             $o .= '<span
@@ -284,6 +286,7 @@ class format_weeks2_renderer extends format_weeks_renderer {
                 class="tablink topictab nav-link "
                 tab_title="'.$tab->title.'"
                 generic_title = "'.$tab->generic_title.'"
+                tabindex = "'.$tabindex.'"
                 style="'.($PAGE->user_is_editing() ? 'cursor: move;' : '').'">';
         }
         // render the tab name as inplace_editable
