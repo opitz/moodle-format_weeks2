@@ -45,7 +45,7 @@ $string['sectionname'] = 'Week';
 $string['section0name'] = 'General';
 $string['hidefromothers'] = 'Hide week';
 $string['showfromothers'] = 'Show week';
-$string['addsections'] = 'Add Weeks';
+$string['addsections'] = 'Add weeks';
 
 // tab related strings
 $string['modulecontent'] = 'Module Content';
