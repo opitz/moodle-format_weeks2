@@ -24,7 +24,7 @@
  */
 
 defined('MOODLE_INTERNAL') || die();
-defined('COURSE_DISPLAY_COLLAPSE') || define('COURSE_DISPLAY_COLLAPSE', 2);
+defined('COURSE_DISPLAY_NOCOLLAPSE') || define('COURSE_DISPLAY_NOCOLLAPSE', 2);
 require_once($CFG->dirroot. '/course/format/weeks/lib.php');
 
 /**
@@ -98,7 +98,7 @@ class format_weeks2 extends format_weeks {
                     'element_attributes' => array(
                         array(
                             COURSE_DISPLAY_SINGLEPAGE => new lang_string('coursedisplay_single'),
-                            COURSE_DISPLAY_COLLAPSE => get_string('coursedisplay_collapse', 'format_weeks2'),
+                            COURSE_DISPLAY_NOCOLLAPSE => get_string('coursedisplay_nocollapse', 'format_weeks2'),
                             COURSE_DISPLAY_MULTIPAGE => new lang_string('coursedisplay_multi')
                         )
                     ),
@@ -212,7 +212,7 @@ class format_weeks2 extends format_weeks {
                     'element_attributes' => array(
                         array(
                             COURSE_DISPLAY_SINGLEPAGE => new lang_string('coursedisplay_single'),
-                            COURSE_DISPLAY_COLLAPSE => get_string('coursedisplay_collapse', 'format_weeks2'),
+                            COURSE_DISPLAY_NOCOLLAPSE => get_string('coursedisplay_nocollapse', 'format_weeks2'),
                             COURSE_DISPLAY_MULTIPAGE => new lang_string('coursedisplay_multi')
                         )
                     ),
@@ -292,7 +292,7 @@ class format_weeks2 extends format_weeks {
                     'element_attributes' => array(
                         array(
                             COURSE_DISPLAY_SINGLEPAGE => new lang_string('coursedisplay_single'),
-                            COURSE_DISPLAY_COLLAPSE => get_string('coursedisplay_collapse', 'format_weeks2'),
+                            COURSE_DISPLAY_NOCOLLAPSE => get_string('coursedisplay_nocollapse', 'format_weeks2'),
                             COURSE_DISPLAY_MULTIPAGE => new lang_string('coursedisplay_multi')
                         )
                     ),

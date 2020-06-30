@@ -483,7 +483,7 @@ class format_weeks2_renderer extends format_weeks_renderer {
 
         // the sectionbody
 //        if($course->toggle && isset($toggle_seq[$section->section]) && $toggle_seq[$section->section] === '0' && ($section->section !== 0 || $section->name !== '')) {
-        if($course->coursedisplay == COURSE_DISPLAY_COLLAPSE && isset($toggle_seq[$section->section]) && $toggle_seq[$section->section] === '0' && ($section->section !== 0 || $section->name !== '')) {
+        if($course->coursedisplay == COURSE_DISPLAY_MULTIPAGE && isset($toggle_seq[$section->section]) && $toggle_seq[$section->section] === '0' && ($section->section !== 0 || $section->name !== '')) {
             $o.= html_writer::start_tag('div', array('class' => 'sectionbody summary toggle_area hidden', 'style' => 'display: none;'));
         } else {
             $o.= html_writer::start_tag('div', array('class' => 'sectionbody summary toggle_area showing'));
@@ -499,7 +499,7 @@ class format_weeks2_renderer extends format_weeks_renderer {
     // Section title either with toggle or straight
     public function section_title($section, $course) {
 //        if($course->toggle) {
-        if($course->coursedisplay == COURSE_DISPLAY_COLLAPSE) {
+        if($course->coursedisplay == COURSE_DISPLAY_MULTIPAGE) {
             // prepare the toggle
             if(isset($this->toggle_seq)) {
                 $toggle_seq = str_split($this->toggle_seq);

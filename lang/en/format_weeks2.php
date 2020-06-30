@@ -87,7 +87,7 @@ $string['tooltip_open_all'] = 'Expand all weeks';
 $string['tooltip_close_all'] = 'Collapse all weeks';
 $string['tooltip_goto_top'] = 'Go to the top of the page';
 
-$string['coursedisplay_collapse'] = 'Show collapsible sections on one page';
+$string['coursedisplay_nocollapse'] = 'Show noncollapsible sections on one page';
 
 $string['automaticenddate'] = 'Calculate the end date from the number of sections';
 $string['automaticenddate_help'] = 'If enabled, the end date for the course will be automatically calculated from the number of sections and the course start date.';
