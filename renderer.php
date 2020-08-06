@@ -365,14 +365,18 @@ class format_weeks2_renderer extends format_weeks_renderer {
 
         foreach($tab_section_ids as $key => $tab_section_id) {
             if(!in_array($tab_section_id, $section_ids) && isset($section_ids[$tab_section_nums[$key]])){
-                // the tab_section_id is not among the sections of that course - the ID needs to be corrected
+                // the tab_section_id is not among the (new) section ids of that course
+                // this is most likely because the course has been restored - so use the sectionnums to determine the new id
                 $new_tab_section_ids[] = $section_ids[$tab_section_nums[$key]];
                 $id_has_changed = true;
+                // preserve the backup sequence of sectionnums
+                $new_tab_section_nums[] = $tab_section_nums[$key];
             } else {
+                // the tab_section_id IS part of the section ids of that course and will be preserved
                 $new_tab_section_ids[] = $tab_section_id;
-            }
-            if(array_search($tab_section_id, $section_ids)) {
+                // create a backup sequence of sectionnums from section IDs to use it in the correction scheme above after a backup
                 $new_tab_section_nums[] = array_search($tab_section_id, $section_ids);
+//                $new_tab_section_nums[] = $section_num;
             }
         }
 
@@ -382,6 +386,7 @@ class format_weeks2_renderer extends format_weeks_renderer {
             $DB->update_record('course_format_options', array('id' => $tab_format_record_ids->id, 'value' => $tab_section_ids));
         }
         if($tab_section_nums != $tab_format_record_nums->value) {
+            // if the tab nums of that tab have changed update them
             $DB->update_record('course_format_options', array('id' => $tab_format_record_nums->id, 'value' => $tab_section_nums));
         }
 
