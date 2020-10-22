@@ -154,14 +154,19 @@ class format_weeks2 extends format_weeks {
 //                ),
 
                 'section0_ontop' => array(
+                    'label' => get_string('section0_label', 'format_weeks2'),
+                    'element_type' => 'advcheckbox',
                     'default' => 0,
-                    'type' => PARAM_BOOL,
-                    'element_type' => 'hidden'
+                    'help' => 'section0',
+                    'help_component' => 'format_weeks2',
+                    'element_type' => 'hidden',
                 ),
                 'single_section_tabs' => array(
+                    'label' => get_string('single_section_tabs_label', 'format_weeks2'),
+                    'element_type' => 'advcheckbox',
+                    'help' => 'single_section_tabs',
+                    'help_component' => 'format_topics2',
                     'default' => 0,
-                    'type' => PARAM_BOOL,
-                    'element_type' => 'hidden'
                 ),
 
             );
