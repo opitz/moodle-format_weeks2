@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This file contains main class for the course format TabbedTopic
+ * This file contains main class for the course format weeks2
  *
  * @since     Moodle 2.0
  * @package   format_weeks2
@@ -51,11 +51,12 @@ class format_weeks2 extends format_weeks {
         global $CFG, $COURSE, $DB;
         $fo = $DB->get_records('course_format_options', array('courseid' => $COURSE->id));
         $format_options = array();
-        foreach($fo as $o) {
+        foreach ($fo as $o) {
             $format_options[$o->name] = $o->value;
         }
 
-        $max_tabs = ((isset($format_options['maxtabs']) && $format_options['maxtabs'] > 0) ? $format_options['maxtabs'] : (isset($CFG->max_tabs) ? $CFG->max_tabs : 9));
+        $max_tabs = ((isset($format_options['maxtabs']) && $format_options['maxtabs'] > 0) ?
+            $format_options['maxtabs'] : (isset($CFG->max_tabs) ? $CFG->max_tabs : 9));
         static $courseformatoptions = false;
         if ($courseformatoptions === false) {
             $courseconfig = get_config('moodlecourse');
@@ -76,12 +77,6 @@ class format_weeks2 extends format_weeks {
                     'default' => $courseconfig->coursedisplay,
                     'type' => PARAM_INT,
                 ),
-
-//                'automaticenddate' => array(
-//                    'default' => 1,
-//                    'type' => PARAM_BOOL,
-//                ),
-
                 'section0_ontop' => array(
                     'label' => get_string('section0_label', 'format_weeks2'),
                     'element_type' => 'advcheckbox',
@@ -101,19 +96,19 @@ class format_weeks2 extends format_weeks {
             );
         }
 
-        // the sequence in which the tabs will be displayed
-        $courseformatoptions['tab_seq'] = array('default' => '','type' => PARAM_TEXT,'label' => '','element_type' => 'hidden',);
+        // The sequence in which the tabs will be displayed.
+        $courseformatoptions['tab_seq'] = array('default' => '', 'type' => PARAM_TEXT, 'label' => '', 'element_type' => 'hidden',);
 
-        // now loop through the tabs but don't show them as we only need the DB records...
-        $courseformatoptions['tab0_title'] = array('default' => get_string('tabzero_title', 'format_weeks2'),'type' => PARAM_TEXT,'label' => '','element_type' => 'hidden',);
-        $courseformatoptions['tab0'] = array('default' => "",'type' => PARAM_TEXT,'label' => '','element_type' => 'hidden',);
+        // Now loop through the tabs but don't show them as we only need the DB records...
+        $courseformatoptions['tab0_title'] = array('default' => get_string('tabzero_title',
+            'format_weeks2'), 'type' => PARAM_TEXT, 'label' => '', 'element_type' => 'hidden',);
+        $courseformatoptions['tab0'] = array('default' => "", 'type' => PARAM_TEXT, 'label' => '', 'element_type' => 'hidden',);
 
         for ($i = 1; $i <= $max_tabs; $i++) {
-            $courseformatoptions['tab'.$i.'_title'] = array('default' => "Tab ".$i,'type' => PARAM_TEXT,'label' => '','element_type' => 'hidden',);
-            $courseformatoptions['tab'.$i] = array('default' => "",'type' => PARAM_TEXT,'label' => '','element_type' => 'hidden',);
-            $courseformatoptions['tab'.$i.'_sectionnums'] = array('default' => "",'type' => PARAM_TEXT,'label' => '','element_type' => 'hidden',);
+            $courseformatoptions['tab'.$i.'_title'] = array('default' => "Tab ".$i, 'type' => PARAM_TEXT, 'label' => '', 'element_type' => 'hidden',);
+            $courseformatoptions['tab'.$i] = array('default' => "", 'type' => PARAM_TEXT, 'label' => '', 'element_type' => 'hidden',);
+            $courseformatoptions['tab'.$i.'_sectionnums'] = array('default' => "", 'type' => PARAM_TEXT, 'label' => '', 'element_type' => 'hidden',);
         }
-
 
         if ($foreditform && !isset($courseformatoptions['coursedisplay']['label'])) {
             $courseformatoptionsedit = array(
@@ -121,13 +116,11 @@ class format_weeks2 extends format_weeks {
                     'label' => get_string('maxtabs_label', 'format_weeks2'),
                     'help' => 'maxtabs',
                     'help_component' => 'format_weeks2',
-//                    'element_type' => 'hidden',
                 ),
                 'limittabname' => array(
                     'label' => get_string('limittabname_label', 'format_weeks2'),
                     'help' => 'limittabname',
                     'help_component' => 'format_weeks2',
-//                    'element_type' => 'hidden',
                 ),
 
                 'hiddensections' => array(
@@ -163,18 +156,6 @@ class format_weeks2 extends format_weeks {
                     'help_component' => 'format_weeks2',
                     'element_type' => 'advcheckbox',
                 ),
-//                'section0_ontop' => array(
-//                    'label' => get_string('section0_label', 'format_weeks2'),
-//                    'help' => 'section0',
-//                    'help_component' => 'format_weeks2',
-//                    'element_type' => 'hidden',
-//                ),
-//                'single_section_tabs' => array(
-//                    'label' => get_string('single_section_tabs_label', 'format_weeks2'),
-//                    'element_type' => 'advcheckbox',
-//                    'help' => 'single_section_tabs',
-//                    'help_component' => 'format_weeks2',
-//                )
             );
             $courseformatoptions = array_merge_recursive($courseformatoptions, $courseformatoptionsedit);
         }
@@ -227,7 +208,7 @@ class format_weeks2 extends format_weeks {
             return null;
         }
 
-        if(strstr($action, 'movetotab')) {
+        if (strstr($action, 'movetotab')) {
             $action2 = $this->words2numbers($action);
             return $this->move2tab((int)str_replace('movetotab', '', $action2), $section, $tcsettings);
         } else {
@@ -265,13 +246,13 @@ class format_weeks2 extends format_weeks {
 
         $course = $PAGE->course;
 
-        // remove section number from all tab format settings
+        // Remove section number from all tab format settings.
         $settings = $this->removefromtabs($course, $section2move, $settings);
 
-        // add section number to new tab format settings if not tab0
-        if($tabnum > 0){
-            $settings['tab'.$tabnum] .= ($settings['tab'.$tabnum] === '' ? '' : ',').$section2move->id;
-            $settings['tab'.$tabnum.'_sectionnums'] .= ($settings['tab'.$tabnum.'_sectionnums'] === '' ? '' : ',').$section2move->section;
+        // Add section number to new tab format settings if not tab0.
+        if ($tabnum > 0) {
+            $settings['tab'.$tabnum] .= ($settings['tab'.$tabnum] === '' ? '' : ', ').$section2move->id;
+            $settings['tab'.$tabnum.'_sectionnums'] .= ($settings['tab'.$tabnum.'_sectionnums'] === '' ? '' : ', ').$section2move->section;
             $this->update_course_format_options($settings);
         }
         return $settings;
@@ -292,24 +273,24 @@ class format_weeks2 extends format_weeks {
         $max_tabs = ((isset($settings['maxtabs']) && $settings['maxtabs'] > 0) ? $settings['maxtabs'] : (isset($CFG->max_tabs) ? $CFG->max_tabs : 9));
 
         for($i = 0; $i <= $max_tabs; $i++) {
-            if(strstr($settings['tab'.$i], $section2remove->id) > -1) {
-                $sections = explode(',', $settings['tab'.$i]);
-                $new_sections = array();
-                foreach($sections as $section) {
-                    if($section != $section2remove->id) {
-                        $new_sections[] = $section;
+            if (strstr($settings['tab'.$i], $section2remove->id) > -1) {
+                $sections = explode(', ', $settings['tab'.$i]);
+                $newsections = array();
+                foreach ($sections as $section) {
+                    if ($section != $section2remove->id) {
+                        $newsections[] = $section;
                     }
                 }
-                $settings['tab'.$i] = implode(',', $new_sections);
+                $settings['tab'.$i] = implode(', ', $newsections);
 
-                $section_nums = explode(',', $settings['tab'.$i.'_sectionnums']);
-                $new_section_nums = array();
-                foreach($section_nums as $section_num) {
-                    if($section_num != $section2remove->section) {
-                        $new_section_nums[] = $section_num;
+                $sectionnums = explode(', ', $settings['tab'.$i.'_sectionnums']);
+                $newsectionnums = array();
+                foreach ($sectionnums as $sectionnum) {
+                    if ($sectionnum != $section2remove->section) {
+                        $newsectionnums[] = $sectionnum;
                     }
                 }
-                $settings['tab'.$i.'_sectionnums'] = implode(',', $new_section_nums);
+                $settings['tab'.$i.'_sectionnums'] = implode(', ', $newsectionnums);
                 $this->update_course_format_options($settings);
             }
         }
@@ -341,18 +322,18 @@ class format_weeks2 extends format_weeks {
     public function delete_section($section, $forcedeleteifnotempty = false) {
         global $DB;
 
-        // Before we delete the section record we need it's ID to remove it from tabs after(!) a successful deletion
+        // Before we delete the section record we need it's ID to remove it from tabs after(!) a successful deletion.
         $srec = $DB->get_record('course_sections', array('course' => $this->courseid, 'section' => $section));
         $sectionid = $srec->id;
 
-        $what_parents_say = parent::delete_section($section, $forcedeleteifnotempty);
-        if(!$what_parents_say) {
+        $whatparentssay = parent::delete_section($section, $forcedeleteifnotempty);
+        if (!$whatparentssay) {
             return false;
         }
 
-        // Remove sectionid and section(num) from tabs
+        // Remove sectionid and section(num) from tabs.
         $this->remove_from_tabs($section, $sectionid);
-        return $what_parents_say;
+        return $whatparentssay;
     }
 
     /**
@@ -365,12 +346,12 @@ class format_weeks2 extends format_weeks {
      */
     public function remove_from_tabs($section = false, $sectionid = false) {
         global $DB;
-        if(!$section || !$sectionid) {
+        if (!$section || !$sectionid) {
             return false;
         }
-        // Loop through the tabs
+        // Loop through the tabs.
         $records = $DB->get_records('course_format_options', array('courseid' => $this->courseid, 'format' => $this->format));
-        foreach($records as $option) {
+        foreach ($records as $option) {
             switch($option->name) {
                 case 'tab1':
                 case 'tab2':
@@ -381,7 +362,7 @@ class format_weeks2 extends format_weeks {
                 case 'tab7':
                 case 'tab8':
                 case 'tab9':
-                if(strstr($option->value, $sectionid)) {
+                if (strstr($option->value, $sectionid)) {
                     $this->remove_sectionid($option, $sectionid);
                 }
                     break;
@@ -394,7 +375,7 @@ class format_weeks2 extends format_weeks {
                 case 'tab7_sectionnums':
                 case 'tab8_sectionnums':
                 case 'tab9_sectionnums':
-                    if(strstr($option->value, $section)){
+                    if (strstr($option->value, $section)) {
                         $this->remove_sectionnum($option, $section);
                     }
                     break;
@@ -412,15 +393,15 @@ class format_weeks2 extends format_weeks {
      */
     public function remove_sectionid($option, $sectionid) {
         global $DB;
-        $tabsections = explode(',',$option->value);
-        $new_tabsections = array();
-        foreach($tabsections as $tabsectionid) {
-            if($tabsectionid !== $sectionid) {
-                $new_tabsections[] = $tabsectionid;
+        $tabsections = explode(', ',$option->value);
+        $newtabsections = array();
+        foreach ($tabsections as $tabsectionid) {
+            if ($tabsectionid !== $sectionid) {
+                $newtabsections[] = $tabsectionid;
             }
         }
-        if(sizeof(array_diff($tabsections, $new_tabsections)) > 0) {
-            $option->value = implode(',', $new_tabsections);
+        if (count(array_diff($tabsections, $newtabsections)) > 0) {
+            $option->value = implode(', ', $newtabsections);
             $DB->update_record('course_format_options', $option);
         }
     }
@@ -434,15 +415,15 @@ class format_weeks2 extends format_weeks {
      */
     public function remove_sectionnum($option, $sectionnum) {
         global $DB;
-        $tabsectionnums = explode(',',$option->value);
-        $new_tabsectionnums = array();
-        foreach($tabsectionnums as $tabsectionnum) {
-            if($tabsectionnum !== $sectionnum) {
-                $new_tabsectionnums[] = $tabsectionnum;
+        $tabsectionnums = explode(', ',$option->value);
+        $newtabsectionnums = array();
+        foreach ($tabsectionnums as $tabsectionnum) {
+            if ($tabsectionnum !== $sectionnum) {
+                $newtabsectionnums[] = $tabsectionnum;
             }
         }
-        if(sizeof(array_diff($tabsectionnums, $new_tabsectionnums)) > 0) {
-            $option->value = implode(',', $new_tabsectionnums);
+        if (count(array_diff($tabsectionnums, $newtabsectionnums)) > 0) {
+            $option->value = implode(', ', $newtabsectionnums);
             $DB->update_record('course_format_options', $option);
         }
     }
@@ -466,18 +447,14 @@ function format_weeks2_inplace_editable($itemtype, $itemid, $newvalue) {
             array($itemid, 'weeks2'), MUST_EXIST);
         return course_get_format($section->course)->inplace_editable_update_section_name($section, $itemtype, $newvalue);
     }
-    // deal with inplace changes of a tab name
+    // Deal with inplace changes of a tab name.
     if ($itemtype === 'tabname') {
-        global $DB, $PAGE;
-        $courseid = key($_SESSION['USER']->currentcourseaccess);
-        // the $itemid is actually the name of the record so use it to get the id
+        global $DB;
 
-        // update the database with the new value given
+        // Update the database with the new value given.
         // Must call validate_context for either system, or course or course module context.
         // This will both check access and set current context.
         \external_api::validate_context(context_system::instance());
-        // Check permission of the user to update this item.
-//        require_capability('moodle/course:update', context_system::instance());
         // Clean input and update the record.
         $newvalue = clean_param($newvalue, PARAM_NOTAGS);
         $record = $DB->get_record('course_format_options', array('id' => $itemid), '*', MUST_EXIST);
