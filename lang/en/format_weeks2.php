@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -47,7 +46,7 @@ $string['hidefromothers'] = 'Hide week';
 $string['showfromothers'] = 'Show week';
 $string['addsections'] = 'Add weeks';
 
-// tab related strings
+// Tab related strings.
 $string['modulecontent'] = 'Module Content';
 $string['tab0_generic_name'] = 'Module Content';
 
@@ -79,6 +78,8 @@ $string['tabname'] = 'Tab';
 $string['tabzero_title'] = 'Module Content';
 $string['tabtitle_edithint'] = 'Edit tab name';
 $string['tabtitle_editlabel'] = 'New value for {a}';
+$string['movetotab'] = 'Move to Tab ';
+$string['totab'] = 'To Tab ';
 
 $string['hidden_tab_hint'] = 'This tab contains only hidden weeks and will not be shown to students';
 $string['tooltip_open'] = 'Click to collapse. ALT-click to collapse all weeks.';

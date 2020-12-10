@@ -17,12 +17,11 @@
 /**
  * Version details
  *
- * @package    format
+ * @package format_weeks2
  * @subpackage weeks2
- * @copyright  1999 onwards Martin Dougiamas (http://dougiamas.com) / Matthias Opitz (opitz@qmx.de)
+ * @copyright  2020 Matthias Opitz (opitz@qmx.de)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->version   = 2019041100;        // The current plugin version (Date: YYYYMMDDXX).

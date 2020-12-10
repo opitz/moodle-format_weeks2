@@ -9,8 +9,16 @@
  */
 require_once('../../../../config.php');
 
+/**
+ * Update the tab sequence
+ *
+ * @param $courseid
+ * @param $tab_seq
+ * @return mixed
+ * @throws dml_exception
+ */
 function update_tab_seq($courseid, $tab_seq) {
-    global $DB, $COURSE, $PAGE;
+    global $DB;
 
     if($DB->record_exists('course_format_options', array('courseid'=>$courseid, 'name'=>'tab_seq'))) {
         $tab_seq_record = $DB->get_record('course_format_options', array('courseid'=>$courseid, 'name'=>'tab_seq'));

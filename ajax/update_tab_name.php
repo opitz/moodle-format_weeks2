@@ -8,9 +8,19 @@
  */
 require_once('../../../../config.php');
 
+/**
+ * Update the name of a given tab
+ *
+ * @param $courseid
+ * @param $tabid
+ * @param $tab_name
+ * @return string
+ * @throws coding_exception
+ * @throws dml_exception
+ */
 function update_tab_name($courseid, $tabid, $tab_name)
 {
-    global $COURSE, $DB, $PAGE;
+    global $DB;
 
     $context = context_course::instance($courseid);
 

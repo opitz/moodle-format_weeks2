@@ -9,6 +9,14 @@
  */
 require_once('../../../../config.php');
 
+/**
+ * Update the toggles settings per user
+ *
+ * @param $courseid
+ * @param $toggle_seq
+ * @return mixed
+ * @throws dml_exception
+ */
 function update_toggle_status($courseid, $toggle_seq) {
     global $DB, $USER;
 

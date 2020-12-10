@@ -39,85 +39,14 @@ require_once($CFG->dirroot. '/course/format/weeks/lib.php');
  */
 class format_weeks2 extends format_weeks {
 
-    public function course_format_options1($foreditform = false) {
-        global $CFG;
-        static $courseformatoptions = false;
-        if ($courseformatoptions === false) {
-            $courseconfig = get_config('moodlecourse');
-            $courseformatoptions = array(
-                'maxtabs' => array(
-                    'default' => (isset($CFG->max_tabs) ? $CFG->max_tabs : 5),
-                    'type' => PARAM_INT,
-                ),
-                'limittabname' => array(
-                    'default' => 0,
-                    'type' => PARAM_INT,
-                ),
-                'hiddensections' => array(
-                    'default' => $courseconfig->hiddensections,
-                    'type' => PARAM_INT,
-                ),
-                'coursedisplay' => array(
-                    'default' => $courseconfig->coursedisplay,
-                    'type' => PARAM_INT,
-                ),
-                'automaticenddate' => array(
-                    'default' => 1,
-                    'type' => PARAM_BOOL,
-                ),
-            );
-        }
-        if ($foreditform && !isset($courseformatoptions['coursedisplay']['label'])) {
-            $courseformatoptionsedit = array(
-                'maxtabs' => array(
-                    'label' => get_string('maxtabs_label', 'format_weeks2'),
-                    'help' => 'maxtabs',
-                    'help_component' => 'format_weeks2',
-//                    'element_type' => 'hidden',
-                ),
-                'limittabname' => array(
-                    'label' => get_string('limittabname_label', 'format_weeks2'),
-                    'help' => 'limittabname',
-                    'help_component' => 'format_weeks2',
-//                    'element_type' => 'hidden',
-                ),
-
-                'hiddensections' => array(
-                    'label' => new lang_string('hiddensections'),
-                    'help' => 'hiddensections',
-                    'help_component' => 'moodle',
-                    'element_type' => 'select',
-                    'element_attributes' => array(
-                        array(
-                            0 => new lang_string('hiddensectionscollapsed'),
-                            1 => new lang_string('hiddensectionsinvisible')
-                        )
-                    ),
-                ),
-                'coursedisplay' => array(
-                    'label' => new lang_string('coursedisplay'),
-                    'element_type' => 'select',
-                    'element_attributes' => array(
-                        array(
-                            COURSE_DISPLAY_SINGLEPAGE => new lang_string('coursedisplay_single'),
-                            COURSE_DISPLAY_NOCOLLAPSE => get_string('coursedisplay_nocollapse', 'format_weeks2'),
-                            COURSE_DISPLAY_MULTIPAGE => new lang_string('coursedisplay_multi')
-                        )
-                    ),
-                    'help' => 'coursedisplay',
-                    'help_component' => 'moodle',
-                ),
-                'automaticenddate' => array(
-                    'label' => new lang_string('automaticenddate', 'format_weeks2'),
-                    'help' => 'automaticenddate',
-                    'help_component' => 'format_weeks2',
-                    'element_type' => 'advcheckbox',
-                )
-            );
-            $courseformatoptions = array_merge_recursive($courseformatoptions, $courseformatoptionsedit);
-        }
-        return $courseformatoptions;
-    }
+    /**
+     * Get some options
+     *
+     * @param bool $foreditform
+     * @return array|bool
+     * @throws coding_exception
+     * @throws dml_exception
+     */
     public function course_format_options($foreditform = false) {
         global $CFG, $COURSE, $DB;
         $fo = $DB->get_records('course_format_options', array('courseid' => $COURSE->id));
@@ -165,7 +94,7 @@ class format_weeks2 extends format_weeks {
                     'label' => get_string('single_section_tabs_label', 'format_weeks2'),
                     'element_type' => 'advcheckbox',
                     'help' => 'single_section_tabs',
-                    'help_component' => 'format_topics2',
+                    'help_component' => 'format_weeks2',
                     'default' => 0,
                 ),
 
@@ -251,115 +180,13 @@ class format_weeks2 extends format_weeks {
         }
         return $courseformatoptions;
     }
-    public function course_format_options0($foreditform = false) {
-        global $CFG, $COURSE, $DB;
-        $fo = $DB->get_records('course_format_options', array('courseid' => $COURSE->id));
-        $format_options = array();
-        foreach($fo as $o) {
-            $format_options[$o->name] = $o->value;
-        }
 
-        $max_tabs = ((isset($format_options['maxtabs']) && $format_options['maxtabs'] > 0) ? $format_options['maxtabs'] : (isset($CFG->max_tabs) ? $CFG->max_tabs : 9));
-        static $courseformatoptions = false;
-        if ($courseformatoptions === false) {
-            $courseconfig = get_config('moodlecourse');
-            $courseformatoptions = array(
-                'maxtabs' => array(
-                    'label' => get_string('maxtabs_label', 'format_weeks2'),
-                    'help' => 'maxtabs',
-                    'help_component' => 'format_weeks2',
-                    'default' => (isset($CFG->max_tabs) ? $CFG->max_tabs : 5),
-                    'type' => PARAM_INT,
-//                    'element_type' => 'hidden',
-                ),
-                'limittabname' => array(
-                    'label' => get_string('limittabname_label', 'format_weeks2'),
-                    'help' => 'limittabname',
-                    'help_component' => 'format_weeks2',
-                    'default' => 0,
-                    'type' => PARAM_INT,
-//                    'element_type' => 'hidden',
-                ),
-
-                'hiddensections' => array(
-                    'label' => new lang_string('hiddensections'),
-                    'help' => 'hiddensections',
-                    'help_component' => 'moodle',
-                    'element_type' => 'select',
-                    'element_attributes' => array(
-                        array(
-                            0 => new lang_string('hiddensectionscollapsed'),
-                            1 => new lang_string('hiddensectionsinvisible')
-                        )
-                    ),
-                ),
-                'coursedisplay' => array(
-                    'label' => new lang_string('coursedisplay'),
-                    'element_type' => 'select',
-                    'element_attributes' => array(
-                        array(
-                            COURSE_DISPLAY_SINGLEPAGE => new lang_string('coursedisplay_single'),
-                            COURSE_DISPLAY_NOCOLLAPSE => get_string('coursedisplay_nocollapse', 'format_weeks2'),
-                            COURSE_DISPLAY_MULTIPAGE => new lang_string('coursedisplay_multi')
-                        )
-                    ),
-                    'help' => 'coursedisplay',
-                    'help_component' => 'moodle',
-                ),
-                'automaticenddate' => array(
-                    'default' => 1,
-                    'type' => PARAM_BOOL,
-                    'label' => get_string('automaticenddate', 'format_weeks2'),
-                    'help' => 'automaticenddate',
-                    'help_component' => 'format_weeks',
-                    'element_type' => 'advcheckbox',
-                ),
-//                'toggle' => array(
-//                    'label' => get_string('toggle_label', 'format_weeks2'),
-//                    'element_type' => 'advcheckbox',
-//                    'help' => 'toggle',
-//                    'help_component' => 'format_weeks2',
-//                ),
-//                'toggle_all' => array(
-//                    'label' => get_string('toggle_all_label', 'format_weeks2'),
-//                    'element_type' => 'advcheckbox',
-//                    'help' => 'toggle_all',
-//                    'help_component' => 'format_weeks2',
-//                ),
-
-                'section0_ontop' => array(
-                    'label' => get_string('section0_label', 'format_weeks2'),
-                    'element_type' => 'advcheckbox',
-                    'default' => 0,
-                    'help' => 'section0',
-                    'help_component' => 'format_weeks2',
-                    'element_type' => 'hidden',
-                ),
-                'single_section_tabs' => array(
-                    'label' => get_string('single_section_tabs_label', 'format_weeks2'),
-                    'element_type' => 'advcheckbox',
-                    'help' => 'single_section_tabs',
-                    'help_component' => 'format_weeks2',
-                ),
-            );
-
-            // the sequence in which the tabs will be displayed
-            $courseformatoptions['tab_seq'] = array('default' => '','type' => PARAM_TEXT,'label' => '','element_type' => 'hidden',);
-
-            // now loop through the tabs but don't show them as we only need the DB records...
-            $courseformatoptions['tab0_title'] = array('default' => get_string('tabzero_title', 'format_weeks2'),'type' => PARAM_TEXT,'label' => '','element_type' => 'hidden',);
-            $courseformatoptions['tab0'] = array('default' => "",'type' => PARAM_TEXT,'label' => '','element_type' => 'hidden',);
-
-            for ($i = 1; $i <= $max_tabs; $i++) {
-                $courseformatoptions['tab'.$i.'_title'] = array('default' => "Tab ".$i,'type' => PARAM_TEXT,'label' => '','element_type' => 'hidden',);
-                $courseformatoptions['tab'.$i] = array('default' => "",'type' => PARAM_TEXT,'label' => '','element_type' => 'hidden',);
-                $courseformatoptions['tab'.$i.'_sectionnums'] = array('default' => "",'type' => PARAM_TEXT,'label' => '','element_type' => 'hidden',);
-            }
-
-        }
-        return $courseformatoptions;
-    }
-
+    /**
+     * Convert words into numbers and back
+     *
+     * @param $string
+     * @return mixed
+     */
     public function words2numbers($string) {
         $numwords = array(
             0 => 'zero',
@@ -379,6 +206,16 @@ class format_weeks2 extends format_weeks {
         return $string;
     }
 
+    /**
+     * Tab action for sections
+     *
+     * @param $section
+     * @param $action
+     * @param $sr
+     * @return array|stdClass|null
+     * @throws moodle_exception
+     * @throws required_capability_exception
+     */
     public function section_action($section, $action, $sr) {
         global $PAGE;
 
@@ -414,7 +251,14 @@ class format_weeks2 extends format_weeks {
         return $rv;
     }
 
-    // move section ID and section number to tab format settings of a given tab
+    /**
+     * Move section ID and section number to tab format settings of a given tab
+     *
+     * @param $tabnum
+     * @param $section2move
+     * @param $settings
+     * @return mixed
+     */
     public function move2tab($tabnum, $section2move, $settings) {
         global $PAGE;
         global $DB;
@@ -433,7 +277,14 @@ class format_weeks2 extends format_weeks {
         return $settings;
     }
 
-    // remove section id from all tab format settings
+    /**
+     * Remove section id from all tab format settings
+     *
+     * @param $course
+     * @param $section2remove
+     * @param $settings
+     * @return mixed
+     */
     public function removefromtabs($course, $section2remove, $settings) {
         global $CFG;
         global $DB;
@@ -465,7 +316,13 @@ class format_weeks2 extends format_weeks {
         return $settings;
     }
 
-    // switch to show section0 always on top of the tabs
+    /**
+     * Switch to show section0 always on top of the tabs
+     *
+     * @param $settings
+     * @param $value
+     * @return mixed
+     */
     public function sectionzeroswitch($settings, $value) {
         $settings['section0_ontop'] = $value;
         $this->update_course_format_options($settings);
@@ -473,6 +330,14 @@ class format_weeks2 extends format_weeks {
         return $settings;
     }
 
+    /**
+     * Delete a section
+     *
+     * @param int|section_info|stdClass $section
+     * @param bool $forcedeleteifnotempty
+     * @return bool
+     * @throws dml_exception
+     */
     public function delete_section($section, $forcedeleteifnotempty = false) {
         global $DB;
 
@@ -490,7 +355,14 @@ class format_weeks2 extends format_weeks {
         return $what_parents_say;
     }
 
-    // Remove traces of a deleted section from tabs where needed
+    /**
+     * Remove traces of a deleted section from tabs where needed
+     *
+     * @param bool $section
+     * @param bool $sectionid
+     * @return bool
+     * @throws dml_exception
+     */
     public function remove_from_tabs($section = false, $sectionid = false) {
         global $DB;
         if(!$section || !$sectionid) {
@@ -531,7 +403,13 @@ class format_weeks2 extends format_weeks {
 
     }
 
-    // Remove the section ID from tabs
+    /**
+     * Remove the section ID from tabs
+     *
+     * @param $option
+     * @param $sectionid
+     * @throws dml_exception
+     */
     public function remove_sectionid($option, $sectionid) {
         global $DB;
         $tabsections = explode(',',$option->value);
@@ -547,7 +425,13 @@ class format_weeks2 extends format_weeks {
         }
     }
 
-    // Remove the section number from tabs
+    /**
+     * Remove the section number from tabs
+     *
+     * @param $option
+     * @param $sectionnum
+     * @throws dml_exception
+     */
     public function remove_sectionnum($option, $sectionnum) {
         global $DB;
         $tabsectionnums = explode(',',$option->value);

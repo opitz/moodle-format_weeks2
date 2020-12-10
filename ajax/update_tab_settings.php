@@ -8,9 +8,20 @@
  */
 require_once('../../../../config.php');
 
+/**
+ * Update the tab settings in the course format options table
+ *
+ * @param $courseid
+ * @param $tabid
+ * @param $sections
+ * @param $sectionnums
+ * @return string
+ * @throws coding_exception
+ * @throws dml_exception
+ */
 function update_tab_settings($courseid, $tabid, $sections, $sectionnums)
 {
-    global $COURSE, $DB, $PAGE;
+    global $DB;
 
     $context = context_course::instance($courseid);
 
