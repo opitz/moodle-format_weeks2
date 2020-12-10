@@ -79,7 +79,7 @@ script:
   # This step runs the PHP Mess Detector on your plugin. This helps to find
   # potential problems with your code which can result in
   # refactoring opportunities.
-  - moodle-plugin-ci phpmd
+#  - moodle-plugin-ci phpmd
   # This step runs the Moodle Code Checker to make sure that your plugin
   # conforms to the Moodle coding standards.  It is highly recommended
   # that you keep this step.
