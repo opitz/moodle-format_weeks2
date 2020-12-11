@@ -24,7 +24,7 @@ Feature: Tabs can be used in weeks2 format
     And I am on "Course 1" course homepage with editing mode on
 
   @javascript
-  Scenario: Move section 4 to tab 3 in topics2 format and back again
+  Scenario: Move section 4 to tab 3 in weeks2 format and back again
     When I move section "4" to tab "3"
     Then I should see "Tab 3"
     And section "4" should be hidden
@@ -45,7 +45,7 @@ Feature: Tabs can be used in weeks2 format
     And section "5" should be visible
 
   @javascript
-  Scenario: Inline edit tab name in topics2 format
+  Scenario: Inline edit tab name in weeks2 format
     When I move section "4" to tab "3"
     And I click on "Edit tab name" "link" in the "#tab3" "css_element"
     And I set the field "New value for {a}" to "Test Tab"
