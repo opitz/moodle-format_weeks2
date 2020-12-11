@@ -75,34 +75,6 @@ class behat_format_weeks2 extends behat_base {
     }
 
     /**
-     * Waits until the section is available to interact with it.
-     * Useful when the section is performing an action and the section is overlayed with a loading layout.
-     *
-     * Using the protected method as this method will be usually
-     * called by other methods which are not returning a set of
-     * steps and performs the actions directly, so it would not
-     * be executed if it returns another step.
-     *
-     * Hopefully we would not require test writers to use this step
-     * and we will manage it from other step definitions.
-     *
-     * @Given /^I wait until section "(?P<section_number>\d+)" is available$/
-     * @param int $sectionnumber
-     * @return void
-     */
-    public function i_wait_until_section_is_available($sectionnumber) {
-
-        // Looks for a hidden lightbox or a non-existent lightbox in that section.
-        $sectionxpath = $this->section_exists($sectionnumber);
-        $hiddenlightboxxpath = $sectionxpath .
-            "/descendant::div[contains(concat(' ', @class, ' '), ' lightbox ')][contains(@style, 'display: none')]" .
-            " | " .
-            $sectionxpath . "[count(child::div[contains(@class, 'lightbox')]) = 0]";
-
-        $this->ensure_element_exists($hiddenlightboxxpath, 'xpath_element');
-    }
-
-    /**
      * Checks if the course section exists.
      *
      * @throws ElementNotFoundException Thrown by behat_base::find
