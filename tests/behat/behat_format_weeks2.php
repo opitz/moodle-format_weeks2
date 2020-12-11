@@ -48,7 +48,7 @@ class behat_format_weeks2 extends behat_base {
      * @param int $sectionnumber The section number
      * @param int $tabnumber The tab number
      */
-    protected function i_move_section_to_tab($sectionnumber, $tabnumber) {
+    public function i_move_section_to_tab($sectionnumber, $tabnumber) {
         // Ensures the section exists.
         $xpath = $this->section_exists($sectionnumber);
 
@@ -81,7 +81,7 @@ class behat_format_weeks2 extends behat_base {
      * @throws DriverException The step is not available when Javascript is disabled
      * @param string $sectionnumber
      */
-    protected function i_open_section_edit_menu($sectionnumber) {
+    public function i_open_section_edit_menu($sectionnumber) {
         if (!$this->running_javascript()) {
             throw new DriverException('Section edit menu not available when Javascript is disabled');
         }
@@ -114,7 +114,7 @@ class behat_format_weeks2 extends behat_base {
      * @param int $sectionnumber
      * @return void
      */
-    protected function i_wait_until_section_is_available($sectionnumber) {
+    public function i_wait_until_section_is_available($sectionnumber) {
 
         // Looks for a hidden lightbox or a non-existent lightbox in that section.
         $sectionxpath = $this->section_exists($sectionnumber);
@@ -166,7 +166,7 @@ class behat_format_weeks2 extends behat_base {
      * @Then /^I click on tab "(?P<tab_number>\d+)"$/
      * @param int $tabnumber
      */
-    protected function i_click_on_tab($tabnumber) {
+    public function i_click_on_tab($tabnumber) {
         $selector = '#tab'.$tabnumber;
         $this->i_click_on_element($selector);
     }
@@ -178,7 +178,7 @@ class behat_format_weeks2 extends behat_base {
      * @param string $selector
      * @throws Exception
      */
-    protected function i_click_on_element($selector) {
+    public function i_click_on_element($selector) {
         $page = $this->getSession()->getPage();
         $element = $page->find('css', $selector);
 
@@ -197,7 +197,7 @@ class behat_format_weeks2 extends behat_base {
      * @param int $movingtabnumber The number of the moving tab
      * @param int $targettabnumber The number of the target tab
      */
-    protected function i_swap_tab_with_tab($movingtabnumber, $targettabnumber) {
+    public function i_swap_tab_with_tab($movingtabnumber, $targettabnumber) {
         if (!$this->running_javascript()) {
             throw new DriverException('Section edit menu not available when Javascript is disabled');
         }
@@ -219,7 +219,7 @@ class behat_format_weeks2 extends behat_base {
      * @Given /^I collapse section "(?P<section_number>\d+)"$/
      * @param string $sectionnumber
      */
-    protected function i_collapse_section($sectionnumber) {
+    public function i_collapse_section($sectionnumber) {
         // Ensures the section exists.
         $xpath = $this->section_exists($sectionnumber);
 
@@ -233,7 +233,7 @@ class behat_format_weeks2 extends behat_base {
      * @Given /^I uncollapse section "(?P<section_number>\d+)"$/
      * @param string $sectionnumber
      */
-    protected function i_uncollapse_section($sectionnumber) {
+    public function i_uncollapse_section($sectionnumber) {
         // Ensures the section exists.
         $xpath = $this->section_exists($sectionnumber);
 
@@ -248,7 +248,7 @@ class behat_format_weeks2 extends behat_base {
      * @param string $sectionnumber
      * @throws ElementNotFoundException
      */
-    protected function the_sectionbody_of_section_should_be_hidden($sectionnumber) {
+    public function the_sectionbody_of_section_should_be_hidden($sectionnumber) {
         $sectionxpath = $this->section_exists($sectionnumber);
         $xpath = $sectionxpath."/descendant::div[contains(@class, 'hidden')]";
 
@@ -269,7 +269,7 @@ class behat_format_weeks2 extends behat_base {
      * @param string $sectionnumber
      * @throws ElementNotFoundException
      */
-    protected function the_sectionbody_of_section_should_be_visible($sectionnumber) {
+    public function the_sectionbody_of_section_should_be_visible($sectionnumber) {
         $sectionxpath = $this->section_exists($sectionnumber);
         $xpath = $sectionxpath."/descendant::div[not(contains(@class, 'hidden'))]";
 

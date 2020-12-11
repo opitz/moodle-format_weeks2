@@ -225,7 +225,7 @@ class format_weeks2_testcase extends advanced_testcase {
         $courseform = new testable_course_edit_form(null, $args);
         $courseform->definition_after_data();
 
-        // format_weeks::get_section_dates is adding 2h to avoid DST problems, we need to replicate it here.
+        // Format_weeks::get_section_dates is adding 2h to avoid DST problems, we need to replicate it here.
         $enddate = $params['startdate'] + (WEEKSECS * $params['numsections']) + 7200;
 
         $weeksformat = course_get_format($course->id);
