@@ -163,34 +163,6 @@ class format_weeks2_testcase extends advanced_testcase {
     /**
      * Test callback updating section name
      */
-    public function test_inplace_editable0() {
-        global $DB, $PAGE;
-
-        $this->resetAfterTest();
-        $user = $this->getDataGenerator()->create_user();
-        $course = $this->getDataGenerator()->create_course(array('numsections' => 5, 'format' => 'weeks2'),
-            array('createsections' => true));
-        $teacherrole = $DB->get_record('role', array('shortname' => 'editingteacher'));
-        $this->getDataGenerator()->enrol_user($user->id, $course->id, $teacherrole->id);
-        $this->setUser($user);
-
-        $section = $DB->get_record('course_sections', array('course' => $course->id, 'section' => 2));
-
-        // Call callback format_weeks2_inplace_editable() directly.
-        $tmpl = component_callback('format_weeks2', 'inplace_editable', array('sectionname', $section->id, 'Rename me again'));
-        $this->assertInstanceOf('core\output\inplace_editable', $tmpl);
-        $res = $tmpl->export_for_template($PAGE->get_renderer('core'));
-        $this->assertEquals('Rename me again', $res['value']);
-        $this->assertEquals('Rename me again', $DB->get_field('course_sections', 'name', array('id' => $section->id)));
-
-        // Try updating using callback from mismatching course format.
-        try {
-            $tmpl = component_callback('format_weeks', 'inplace_editable', array('sectionname', $section->id, 'New name'));
-            $this->fail('Exception expected');
-        } catch (moodle_exception $e) {
-            $this->assertEquals(1, preg_match('/^Can not find data record in database/', $e->getMessage()));
-        }
-    }
     public function test_inplace_editable() {
         global $CFG, $DB, $PAGE;
 
@@ -225,39 +197,6 @@ class format_weeks2_testcase extends advanced_testcase {
      *
      * @return void
      */
-    public function test_default_course_enddate0() {
-        global $CFG, $DB;
-
-        $this->resetAfterTest(true);
-
-        require_once($CFG->dirroot . '/course/tests/fixtures/testable_course_edit_form.php');
-
-        $this->setTimezone('UTC');
-
-        $params = array('format' => 'weeks2', 'numsections' => 5, 'startdate' => 1445644800);
-        $course = $this->getDataGenerator()->create_course($params);
-        $category = $DB->get_record('course_categories', array('id' => $course->category));
-
-        $args = [
-            'course' => $course,
-            'category' => $category,
-            'editoroptions' => [
-                'context' => context_course::instance($course->id),
-                'subdirs' => 0
-            ],
-            'returnto' => new moodle_url('/'),
-            'returnurl' => new moodle_url('/'),
-        ];
-
-        $courseform = new testable_course_edit_form(null, $args);
-        $courseform->definition_after_data();
-
-        $enddate = $params['startdate'] + get_config('moodlecourse', 'courseduration');
-
-        $weeksformat = course_get_format($course->id);
-        $this->assertEquals($enddate, $weeksformat->get_default_course_enddate($courseform->get_quick_form()));
-
-    }
     public function test_default_course_enddate() {
         global $CFG, $DB, $PAGE;
 
