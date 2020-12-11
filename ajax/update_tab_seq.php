@@ -35,7 +35,7 @@ require_login();
 function update_tab_seq($courseid, $tabseq) {
     global $DB;
 
-    if($DB->record_exists('course_format_options', array('courseid' => $courseid, 'name' => 'tab_seq'))) {
+    if ($DB->record_exists('course_format_options', array('courseid' => $courseid, 'name' => 'tab_seq'))) {
         $tabseqrecord = $DB->get_record('course_format_options', array('courseid' => $courseid, 'name' => 'tab_seq'));
         $tabseqrecord->value = $tabseq;
         $DB->update_record('course_format_options', $tabseqrecord);
@@ -51,7 +51,7 @@ function update_tab_seq($courseid, $tabseq) {
     return $tabseq;
 }
 
-if(!isset($_POST['tab_seq']) || count($_POST['tab_seq']) === 0) {
+if (!isset($_POST['tab_seq']) || count($_POST['tab_seq']) === 0) {
     exit;
 }
 

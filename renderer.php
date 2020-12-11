@@ -89,7 +89,7 @@ class format_weeks2_renderer extends format_weeks_renderer {
 
         // An invisible tag with the value of the tab name limit to be used in jQuery.
         if (isset($formatoptions['limittabname']) && $formatoptions['limittabname'] > 0) {
-            echo html_writer::tag('div', '',array('class' => 'limittabname',
+            echo html_writer::tag('div', '', array('class' => 'limittabname',
                 'value' => $formatoptions['limittabname'], 'style' => 'display: hidden;'));
         }
 
@@ -273,7 +273,8 @@ class format_weeks2_renderer extends format_weeks_renderer {
         if ($this->page->user_is_editing()) {
             // Get the format option record for the given tab - we need the id.
             // If the record does not exist, create it first.
-            if (!$DB->record_exists('course_format_options', array('courseid' => $this->page->course->id, 'name' => $tab->id.'_title'))) {
+            if (!$DB->record_exists('course_format_options',
+                array('courseid' => $this->page->course->id, 'name' => $tab->id.'_title'))) {
                 $format = course_get_format($this->page->course);
                 $format = $format->get_format();
 
@@ -564,8 +565,8 @@ class format_weeks2_renderer extends format_weeks_renderer {
                 $toggleseq = [];
             }
 
-            $tooltipopen = get_string('tooltip_open','format_weeks2');
-            $tooltipclosed = get_string('tooltip_closed','format_weeks2');
+            $tooltipopen = get_string('tooltip_open', 'format_weeks2');
+            $tooltipclosed = get_string('tooltip_closed', 'format_weeks2');
             if (isset($toggleseq[$section->id]) && $toggleseq[$section->id] === '0') {
                 $toggler = '<i class="toggler toggler_open fa fa-angle-down" title="'.$tooltipopen.
                     '" style="cursor: pointer; display: none;"></i>';

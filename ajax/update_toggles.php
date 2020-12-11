@@ -36,7 +36,7 @@ function update_toggle_status($courseid, $toggleseq) {
     global $DB, $USER;
 
     $name = "toggle_seq_".$courseid;
-    if ($DB->record_exists('user_preferences', array('userid' => $USER->id, 'name'=>$name))) {
+    if ($DB->record_exists('user_preferences', array('userid' => $USER->id, 'name' => $name))) {
         $toggleseqrecord = $DB->get_record('user_preferences', array('userid' => $USER->id, 'name' => $name));
         $toggleseqrecord->value = $toggleseq;
         $DB->update_record('user_preferences', $toggleseqrecord);
