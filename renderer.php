@@ -58,13 +58,13 @@ class format_weeks2_renderer extends format_weeks_renderer {
         // Include the required JS files.
         $this->require_js();
 
-        $this->toggle_seq = $this->get_toggle_seq($course); // the toggle sequence for this user and course
+        $this->toggle_seq = $this->get_toggle_seq($course); // The toggle sequence for this user and course.
         $modinfo = get_fast_modinfo($course);
         $course = course_get_format($course)->get_course();
         $options = $DB->get_records('course_format_options', array('courseid' => $course->id));
-        $formatoptions=array();
+        $formatoptions = array();
         foreach ($options as $option) {
-            $formatoptions[$option->name] =$option->value;
+            $formatoptions[$option->name] = $option->value;
         }
 
         $context = context_course::instance($course->id);
@@ -89,7 +89,8 @@ class format_weeks2_renderer extends format_weeks_renderer {
 
         // An invisible tag with the value of the tab name limit to be used in jQuery.
         if (isset($formatoptions['limittabname']) && $formatoptions['limittabname'] > 0) {
-            echo html_writer::tag('div','',array('class' => 'limittabname', 'value' => $formatoptions['limittabname'], 'style' => 'display: hidden;'));
+            echo html_writer::tag('div', '',array('class' => 'limittabname',
+                'value' => $formatoptions['limittabname'], 'style' => 'display: hidden;'));
         }
 
         echo html_writer::start_tag('div', array('id' => 'courseid', 'courseid' => $course->id, 'class' => $class));
@@ -153,7 +154,8 @@ class format_weeks2_renderer extends format_weeks_renderer {
     public function prepare_tabs($course, $formatoptions, $sections) {
         global $CFG, $DB;
 
-        $maxtabs = ((isset($formatoptions['maxtabs']) && $formatoptions['maxtabs'] > 0) ? $formatoptions['maxtabs'] : (isset($CFG->max_tabs) ? $CFG->max_tabs : 9));
+        $maxtabs = ((isset($formatoptions['maxtabs']) && $formatoptions['maxtabs'] > 0) ? $formatoptions['maxtabs'] :
+            (isset($CFG->max_tabs) ? $CFG->max_tabs : 9));
         $tabs = array();
 
         // Get the section IDs along with their section numbers.
@@ -179,15 +181,16 @@ class format_weeks2_renderer extends format_weeks_renderer {
                 } else {
                     $tabsectionnums = '';
                 }
-                $tabsections = $this->check_tab_section_ids($course->id, $sectionids, $tabsections, $tabsectionnums,$i);
+                $tabsections = $this->check_tab_section_ids($course->id, $sectionids, $tabsections, $tabsectionnums, $i);
             }
 
             $tab = (object) new stdClass();
             if (isset($tab)) {
                 $tab->id = "tab" . $i;
                 $tab->name = "tab" . $i;
-                $tab->generic_title = ($i === 0 ? get_string('tab0_generic_name', 'format_weeks2'):'Tab '.$i);
-                $tab->title = (isset($formatoptions['tab' . $i . '_title']) && $formatoptions['tab' . $i . '_title'] != '' ? $formatoptions['tab' . $i . '_title'] : $tab->generic_title);
+                $tab->generic_title = ($i === 0 ? get_string('tab0_generic_name', 'format_weeks2') : 'Tab '.$i);
+                $tab->title = (isset($formatoptions['tab' . $i . '_title']) &&
+                $formatoptions['tab' . $i . '_title'] != '' ? $formatoptions['tab' . $i . '_title'] : $tab->generic_title);
                 $tab->sections = $tabsections;
                 $tab->section_nums = $tabsectionnums;
                 $tabs[$tab->id] = $tab;
@@ -196,7 +199,7 @@ class format_weeks2_renderer extends format_weeks_renderer {
         $this->tabs = $tabs;
 
         // Check for abandoned tab format_options and get rid of them.
-        while(isset($formatoptions['tab'.$i.'_title'])) {
+        while (isset($formatoptions['tab'.$i.'_title'])) {
             $sql = "DELETE FROM {course_format_options} WHERE courseid = $course->id and name like 'tab$i%'";
             $DB->execute($sql);
             $i++;
@@ -216,7 +219,7 @@ class format_weeks2_renderer extends format_weeks_renderer {
 
         $tabseq = array();
         if ($formatoptions['tab_seq']) {
-            $tabseq = explode(',',$formatoptions['tab_seq']);
+            $tabseq = explode(',', $formatoptions['tab_seq']);
         }
 
         // Show the tabs in the sequence.
@@ -227,7 +230,7 @@ class format_weeks2_renderer extends format_weeks_renderer {
         }
         // Check if there are tabs that are not in the sequence (yet) - and if so display them now.
         // We need to compare the sequence with the keys of the tabs array.
-        if ($seqdiff = array_diff(array_keys($this->tabs),$tabseq)) {
+        if ($seqdiff = array_diff(array_keys($this->tabs), $tabseq)) {
             foreach ($seqdiff as $tabid) {
                 if (isset($this->tabs[$tabid]) && $tab = $this->tabs[$tabid]) {
                     $o .= $this->render_tab($tab);
@@ -247,7 +250,7 @@ class format_weeks2_renderer extends format_weeks_renderer {
      * @throws dml_exception
      */
     public function render_tab($tab) {
-        global $DB, $OUTPUT;
+        global $DB;
 
         if (!isset($tab)) {
             return false;
@@ -262,7 +265,7 @@ class format_weeks2_renderer extends format_weeks_renderer {
 
         $sectionsarray = explode(',', str_replace(' ', '', $tab->sections));
         if ($sectionsarray[0]) {
-            while ($sectionsarray[0] == "0") { // remove any occurences of section-0
+            while ($sectionsarray[0] == "0") { // Remove any occurences of section-0.
                 array_shift($sectionsarray);
             }
         }
@@ -279,17 +282,19 @@ class format_weeks2_renderer extends format_weeks_renderer {
                 $record->format = $format;
                 $record->section = 0;
                 $record->name = $tab->id.'_title';
-                $record->value = ($tab->id == 'tab0' ? get_string('tabzero_title', 'format_weeks2') :'Tab '.substr($tab->id,3));
+                $record->value = ($tab->id == 'tab0' ? get_string('tabzero_title',
+                    'format_weeks2') : 'Tab '.substr($tab->id, 3));
                 $DB->insert_record('course_format_options', $record);
             }
 
-            $formatoptiontab = $DB->get_record('course_format_options', array('courseid' => $this->page->course->id, 'name' => $tab->id.'_title'));
+            $formatoptiontab = $DB->get_record('course_format_options', array('courseid' => $this->page->course->id,
+                'name' => $tab->id.'_title'));
             $itemid = $formatoptiontab->id;
         } else {
             $itemid = false;
         }
 
-        $tabindex = ((int) substr($tab->id,3,1) +1)* 100;
+        $tabindex = ((int) substr($tab->id, 3, 1) + 1) * 100;
         if ($tab->id == 'tab0') {
             $o .= '<span
                 data-toggle="tab" id="'.$tab->id.'"
@@ -314,8 +319,9 @@ class format_weeks2_renderer extends format_weeks_renderer {
         // Render the tab name as inplace_editable.
         $tmpl = new \core\output\inplace_editable('format_weeks2', 'tabname', $itemid,
             $this->page->user_is_editing(),
-            format_string($tab->title), $tab->title, get_string('tabtitle_edithint', 'format_weeks2'),  get_string('tabtitle_editlabel', 'format_weeks2', format_string($tab->title)));
-        $o .= $OUTPUT->render($tmpl);
+            format_string($tab->title), $tab->title, get_string('tabtitle_edithint', 'format_weeks2'),
+            get_string('tabtitle_editlabel', 'format_weeks2', format_string($tab->title)));
+        $o .= $this->output->render($tmpl);
         $o .= "</span>";
         $o .= html_writer::end_tag('li');
         return $o;
@@ -339,17 +345,19 @@ class format_weeks2_renderer extends format_weeks_renderer {
 
         $newtabsectionids = array();
         $newtabsectionnums = array();
-        $tabformatrecordids = $DB->get_record('course_format_options', array('courseid' => $courseid, 'name' => 'tab'.$i));
-        $tab_format_record_nums = $DB->get_record('course_format_options', array('courseid' => $courseid, 'name' => 'tab'.$i.'_sectionnums'));
+        $tabformatrecordids = $DB->get_record('course_format_options', array('courseid' => $courseid,
+            'name' => 'tab'.$i));
+        $tabformatrecordnums = $DB->get_record('course_format_options', array('courseid' => $courseid,
+            'name' => 'tab'.$i.'_sectionnums'));
 
         if ($tabsectionids != "") {
-            $tabsectionids = explode(',',$tabsectionids);
+            $tabsectionids = explode(',', $tabsectionids);
         } else {
             $tabsectionids = array();
         }
 
         if ($tabsectionnums != "") {
-            $tabsectionnums = explode(',',$tabsectionnums);
+            $tabsectionnums = explode(',', $tabsectionnums);
         } else {
             $tabsectionnums = array();
         }
@@ -363,7 +371,7 @@ class format_weeks2_renderer extends format_weeks_renderer {
                 // Preserve the backup sequence of sectionnums.
                 $newtabsectionnums[] = $tabsectionnums[$key];
             } else {
-                // the tab_section_id IS part of the section ids of that course and will be preserved.
+                // The tab_section_id IS part of the section ids of that course and will be preserved.
                 $newtabsectionids[] = $tabsectionid;
                 // Create a backup sequence of sectionnums from section IDs to use it in the correction scheme
                 // above after a backup.
@@ -376,9 +384,9 @@ class format_weeks2_renderer extends format_weeks_renderer {
         if ($idhaschanged) {
             $DB->update_record('course_format_options', array('id' => $tabformatrecordids->id, 'value' => $tabsectionids));
         }
-        if ($tab_format_record_nums && $tabsectionnums != $tab_format_record_nums->value) {
+        if ($tabformatrecordnums && $tabsectionnums != $tabformatrecordnums->value) {
             // If the tab nums of that tab have changed update them.
-            $DB->update_record('course_format_options', array('id' => $tab_format_record_nums->id, 'value' => $tabsectionnums));
+            $DB->update_record('course_format_options', array('id' => $tabformatrecordnums->id, 'value' => $tabsectionnums));
         }
 
         return $tabsectionids;
@@ -424,7 +432,7 @@ class format_weeks2_renderer extends format_weeks_renderer {
         foreach ($sections as $section => $thissection) {
             if ($section == 0) {
                 $o .= html_writer::start_tag('div', array('id' => 'inline_area'));
-                if ($formatoptions['section0_ontop']) { // section-0 is already shown on top
+                if ($formatoptions['section0_ontop']) { // Section-0 is already shown on top.
                     $o .= html_writer::end_tag('div');
                     continue;
                 }
@@ -501,15 +509,15 @@ class format_weeks2_renderer extends format_weeks_renderer {
             }
         }
 
-        // When rendering section-0 check if it is on top and adjust classes
+        // When rendering section-0 check if it is on top and adjust classes.
         if ($section->section === 0 && $course->section0_ontop) {
-            $classes = 'section clearfix'; // On top is not main
+            $classes = 'section clearfix'; // On top is not main.
         } else {
             $classes = 'section main clearfix';
         }
 
         // Start the section.
-        $o.= html_writer::start_tag('li', array('id' => 'section-'.$section->section, 'section-id' => $section->id,
+        $o .= html_writer::start_tag('li', array('id' => 'section-'.$section->section, 'section-id' => $section->id,
             'class' => $classes.$sectionstyle, 'role' => 'region',
             'aria-label' => get_section_name($course, $section)));
 
@@ -527,7 +535,8 @@ class format_weeks2_renderer extends format_weeks_renderer {
         if (($section->section !== 0 || ($section->name !== '' && $section->name !== null)) && !$onsectionpage) {
             // The sectionname.
             if (($section->section !== 0 || $section->name != '')) {
-                $o .= html_writer::tag('h' . 3, $this->section_title($section, $course), array('class' => renderer_base::prepare_classes('sectionname')));
+                $o .= html_writer::tag('h' . 3, $this->section_title($section, $course),
+                    array('class' => renderer_base::prepare_classes('sectionname')));
             }
             $o .= $this->section_availability($section);
         }
@@ -547,23 +556,26 @@ class format_weeks2_renderer extends format_weeks_renderer {
      * @throws coding_exception
      */
     public function section_title($section, $course) {
-//        if ($course->toggle) {
         if ($course->coursedisplay == COURSE_DISPLAY_SINGLEPAGE) {
-            // prepare the toggle
+            // Prepare the toggle.
             if (isset($this->toggle_seq)) {
-                $toggle_seq = (array) json_decode($this->toggle_seq);
+                $toggleseq = (array) json_decode($this->toggle_seq);
             } else {
-                $toggle_seq = [];
+                $toggleseq = [];
             }
 
-            $tooltip_open = get_string('tooltip_open','format_weeks2');
-            $tooltip_closed = get_string('tooltip_closed','format_weeks2');
-            if (isset($toggle_seq[$section->id]) && $toggle_seq[$section->id] === '0') {
-                $toggler = '<i class="toggler toggler_open fa fa-angle-down" title="'.$tooltip_open.'" style="cursor: pointer; display: none;"></i>';
-                $toggler .= '<i class="toggler toggler_closed fa fa-angle-right" title="'.$tooltip_closed.'" style="cursor: pointer;"></i>';
+            $tooltipopen = get_string('tooltip_open','format_weeks2');
+            $tooltipclosed = get_string('tooltip_closed','format_weeks2');
+            if (isset($toggleseq[$section->id]) && $toggleseq[$section->id] === '0') {
+                $toggler = '<i class="toggler toggler_open fa fa-angle-down" title="'.$tooltipopen.
+                    '" style="cursor: pointer; display: none;"></i>';
+                $toggler .= '<i class="toggler toggler_closed fa fa-angle-right" title="'.$tooltipclosed.
+                    '" style="cursor: pointer;"></i>';
             } else {
-                $toggler = '<i class="toggler toggler_open fa fa-angle-down" title="'.$tooltip_open.'" style="cursor: pointer;"></i>';
-                $toggler .= '<i class="toggler toggler_closed fa fa-angle-right" title="'.$tooltip_closed.'" style="cursor: pointer; display: none;"></i>';
+                $toggler = '<i class="toggler toggler_open fa fa-angle-down" title="'.$tooltipopen.
+                    '" style="cursor: pointer;"></i>';
+                $toggler .= '<i class="toggler toggler_closed fa fa-angle-right" title="'.$tooltipclosed.
+                    '" style="cursor: pointer; display: none;"></i>';
             }
             $toggler .= ' ';
         } else {
@@ -584,12 +596,13 @@ class format_weeks2_renderer extends format_weeks_renderer {
         $o = '';
 
         if (isset($this->toggle_seq)) {
-            $toggle_seq = (array) json_decode($this->toggle_seq);
+            $toggleseq = (array) json_decode($this->toggle_seq);
         } else {
-            $toggle_seq = [];
+            $toggleseq = [];
         }
 
-        if ($course->coursedisplay == COURSE_DISPLAY_SINGLEPAGE && isset($toggle_seq[$section->id]) && $toggle_seq[$section->id] === '0' && ($section->section !== 0 || $section->name !== '')) {
+        if ($course->coursedisplay == COURSE_DISPLAY_SINGLEPAGE && isset($toggleseq[$section->id]) &&
+            $toggleseq[$section->id] === '0' && ($section->section !== 0 || $section->name !== '')) {
             $o .= html_writer::start_tag('div',
                 array('class' => 'sectionbody summary toggle_area hidden', 'style' => 'display: none;'));
         } else {
@@ -616,7 +629,7 @@ class format_weeks2_renderer extends format_weeks_renderer {
      * @throws coding_exception
      */
     public function render_hidden_sections($course, $sections, $context, $modinfo, $numsections) {
-        $o ='<div class="testing"></div>';
+        $o = '<div class="testing"></div>';
         if ($this->page->user_is_editing() and has_capability('moodle/course:update', $context)) {
             // Print stealth sections if present.
             foreach ($sections as $section => $thissection) {
@@ -653,7 +666,7 @@ class format_weeks2_renderer extends format_weeks_renderer {
             9 => 'nine'
         );
         for ($i = 0; $i < 10; $i++) {
-            $string = str_replace($i, $numwords[$i],$string);
+            $string = str_replace($i, $numwords[$i], $string);
         }
         return $string;
     }
@@ -674,18 +687,17 @@ class format_weeks2_renderer extends format_weeks_renderer {
         }
 
         $options = $DB->get_records('course_format_options', array('courseid' => $course->id));
-        $formatoptions=array();
+        $formatoptions = array();
         foreach ($options as $option) {
-            $formatoptions[$option->name] =$option->value;
+            $formatoptions[$option->name] = $option->value;
         }
 
         if (isset($formatoptions['maxtabs'])) {
             $maxtabs = $formatoptions['maxtabs'];
         } else {
-            // allow up to 5 tabs  by default if nothing else is set in the config file
+            // Allow up to 5 tabs  by default if nothing else is set in the configuration.
             $maxtabs = (isset($CFG->max_tabs) ? $CFG->max_tabs : 5);
         }
-//        $maxtabs = ($maxtabs < 10 ? $maxtabs : 9 ); // Restrict tabs to 10 max (0...9)
         $coursecontext = context_course::instance($course->id);
 
         if ($onsectionpage) {
@@ -697,7 +709,7 @@ class format_weeks2_renderer extends format_weeks_renderer {
 
         $controls = array();
 
-        // add move to/from top for section0 only
+        // Add move to/from top for section0 only.
         if ($section->section === 0) {
             $controls['ontop'] = array(
                 "icon" => 't/up',
@@ -723,7 +735,7 @@ class format_weeks2_renderer extends format_weeks_renderer {
             );
         }
 
-        // Insert tab moving menu items
+        // Insert tab moving menu items.
         $controls['no_tab'] = array(
             "icon" => 't/left',
             'name' => 'Remove from Tabs',
@@ -738,9 +750,10 @@ class format_weeks2_renderer extends format_weeks_renderer {
 
         $itemtitle = "Move to Tab ";
 
-        for($i = 1; $i <= $maxtabs; $i++) {
+        for ($i = 1; $i <= $maxtabs; $i++) {
             $tabname = 'tab'.$i.'_title';
-            $itemname = 'To Tab '.(isset($course->$tabname) && $course->$tabname !='' && $course->$tabname !='Tab '.$i ? '"'.$course->$tabname.'"' : $i);
+            $itemname = 'To Tab '.(isset($course->$tabname) && $course->$tabname != '' &&
+                $course->$tabname != 'Tab '.$i ? '"'.$course->$tabname.'"' : $i);
 
             $controls['to_tab'.$i] = array(
                 "icon" => 't/right',

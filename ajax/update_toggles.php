@@ -1,43 +1,57 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
- * Created by PhpStorm.
- * User: Matthias Opitz
- * Date: 04/10/18
- * Time: 14:46
- *
  * Updating the user preferences with the current toggle state of all sections in the course
+ *
+ * @package    format_weeks2
+ * @copyright  2020 Matthias Opitz
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 require_once('../../../../config.php');
+require_login();
 
 /**
  * Update the toggles settings per user
  *
  * @param $courseid
- * @param $toggle_seq
+ * @param $toggleseq
  * @return mixed
  * @throws dml_exception
  */
-function update_toggle_status($courseid, $toggle_seq) {
+function update_toggle_status($courseid, $toggleseq) {
     global $DB, $USER;
 
     $name = "toggle_seq_".$courseid;
-    if($DB->record_exists('user_preferences', array('userid' => $USER->id, 'name'=>$name))) {
-        $toggle_seq_record = $DB->get_record('user_preferences', array('userid' => $USER->id, 'name'=>$name));
-        $toggle_seq_record->value = $toggle_seq;
-        $DB->update_record('user_preferences', $toggle_seq_record);
+    if ($DB->record_exists('user_preferences', array('userid' => $USER->id, 'name'=>$name))) {
+        $toggleseqrecord = $DB->get_record('user_preferences', array('userid' => $USER->id, 'name' => $name));
+        $toggleseqrecord->value = $toggleseq;
+        $DB->update_record('user_preferences', $toggleseqrecord);
     } else {
-        $toggle_seq_record = new \stdClass();
-        $toggle_seq_record->userid = $USER->id;
-        $toggle_seq_record->name = $name;
-        $toggle_seq_record->value = $toggle_seq;
-        $DB->insert_record('user_preferences', $toggle_seq_record);
+        $toggleseqrecord = new \stdClass();
+        $toggleseqrecord->userid = $USER->id;
+        $toggleseqrecord->name = $name;
+        $toggleseqrecord->value = $toggleseq;
+        $DB->insert_record('user_preferences', $toggleseqrecord);
     }
-    return $toggle_seq;
+    return $toggleseq;
 }
 
-if(!isset($_POST['toggle_seq']) || sizeof($_POST['toggle_seq']) === 0) {
+if (!isset($_POST['toggle_seq']) || count($_POST['toggle_seq']) === 0) {
     exit;
 }
 
-//echo $_POST['toggle_seq'];
 echo update_toggle_status($_POST['courseid'], $_POST['toggle_seq']);

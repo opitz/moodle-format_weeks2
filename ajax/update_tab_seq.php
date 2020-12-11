@@ -1,42 +1,57 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
- * Created by PhpStorm.
- * User: Matthias Opitz
- * Date: 04/10/18
- * Time: 14:46
- *
  * Updating the course format options with a new sequence in which the tabs are displayed
+ *
+ * @package    format_weeks2
+ * @copyright  2020 Matthias Opitz
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 require_once('../../../../config.php');
+require_login();
 
 /**
  * Update the tab sequence
  *
  * @param $courseid
- * @param $tab_seq
+ * @param $tabseq
  * @return mixed
  * @throws dml_exception
  */
-function update_tab_seq($courseid, $tab_seq) {
+function update_tab_seq($courseid, $tabseq) {
     global $DB;
 
-    if($DB->record_exists('course_format_options', array('courseid'=>$courseid, 'name'=>'tab_seq'))) {
-        $tab_seq_record = $DB->get_record('course_format_options', array('courseid'=>$courseid, 'name'=>'tab_seq'));
-        $tab_seq_record->value = $tab_seq;
-        $DB->update_record('course_format_options', $tab_seq_record);
+    if($DB->record_exists('course_format_options', array('courseid' => $courseid, 'name' => 'tab_seq'))) {
+        $tabseqrecord = $DB->get_record('course_format_options', array('courseid' => $courseid, 'name' => 'tab_seq'));
+        $tabseqrecord->value = $tabseq;
+        $DB->update_record('course_format_options', $tabseqrecord);
     } else {
-        $tab_seq_record = new \stdClass();
-        $tab_seq_record->courseid = $courseid;
-        $tab_seq_record->format = $_POST['course_format_name'];
-        $tab_seq_record->sectionid = 0;
-        $tab_seq_record->name = 'tab_seq';
-        $tab_seq_record->value = $tab_seq;
-        $DB->insert_record('course_format_options', $tab_seq_record);
+        $tabseqrecord = new \stdClass();
+        $tabseqrecord->courseid = $courseid;
+        $tabseqrecord->format = $_POST['course_format_name'];
+        $tabseqrecord->sectionid = 0;
+        $tabseqrecord->name = 'tab_seq';
+        $tabseqrecord->value = $tabseq;
+        $DB->insert_record('course_format_options', $tabseqrecord);
     }
-    return $tab_seq;
+    return $tabseq;
 }
 
-if(!isset($_POST['tab_seq']) || sizeof($_POST['tab_seq']) === 0) {
+if(!isset($_POST['tab_seq']) || count($_POST['tab_seq']) === 0) {
     exit;
 }
 
