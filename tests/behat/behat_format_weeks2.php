@@ -110,11 +110,11 @@ class behat_format_weeks2 extends behat_base {
      * Hopefully we would not require test writers to use this step
      * and we will manage it from other step definitions.
      *
-     * @Given /^I wait until section "(?P<section_number>\d+)" is available$/
+     * @Given /^I wait until section "(?P<section_number>\d+)" is available0$/
      * @param int $sectionnumber
      * @return void
      */
-    public function i_wait_until_section_is_available($sectionnumber) {
+    public function i_wait_until_section_is_available0($sectionnumber) {
 
         // Looks for a hidden lightbox or a non-existent lightbox in that section.
         $sectionxpath = $this->section_exists($sectionnumber);

@@ -267,7 +267,7 @@ class format_weeks2 extends format_weeks {
      *
      * @param stdClass $course
      * @param stdClass $section2remove
-     * @param $settings
+     * @param array $settings
      * @return mixed
      */
     public function removefromtabs($course, $section2remove, $settings) {
