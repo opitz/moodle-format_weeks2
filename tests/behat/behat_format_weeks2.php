@@ -81,7 +81,7 @@ class behat_format_weeks2 extends behat_base {
      * @throws DriverException The step is not available when Javascript is disabled
      * @param string $sectionnumber
      */
-    public function i_open_section_edit_menu($sectionnumber) {
+    protected function i_open_section_edit_menu($sectionnumber) {
         if (!$this->running_javascript()) {
             throw new DriverException('Section edit menu not available when Javascript is disabled');
         }
