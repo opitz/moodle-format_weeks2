@@ -30,8 +30,7 @@ defined('COURSE_DISPLAY_NOCOLLAPSE') || define('COURSE_DISPLAY_NOCOLLAPSE', 3);
 require_once($CFG->dirroot. '/course/format/weeks/lib.php');
 
 /**
- * Main class for the weeks2 course format
- * with added tab-ability
+ * Main class for the weeks2 course format with added tab-ability
  *
  * @package    format_weeks2
  * @copyright  2012 Marina Glancy / 2018 Matthias Opitz
@@ -169,7 +168,7 @@ class format_weeks2 extends format_weeks {
     /**
      * Convert words into numbers and back
      *
-     * @param $string
+     * @param string $string
      * @return mixed
      */
     public function words2numbers($string) {
@@ -194,9 +193,9 @@ class format_weeks2 extends format_weeks {
     /**
      * Tab action for sections
      *
-     * @param $section
-     * @param $action
-     * @param $sr
+     * @param stdClass $section
+     * @param string $action
+     * @param int $sr
      * @return array|stdClass|null
      * @throws moodle_exception
      * @throws required_capability_exception
@@ -239,9 +238,9 @@ class format_weeks2 extends format_weeks {
     /**
      * Move section ID and section number to tab format settings of a given tab
      *
-     * @param $tabnum
-     * @param $section2move
-     * @param $settings
+     * @param int $tabnum
+     * @param stdClass $section2move
+     * @param array $settings
      * @return mixed
      */
     public function move2tab($tabnum, $section2move, $settings) {
@@ -266,8 +265,8 @@ class format_weeks2 extends format_weeks {
     /**
      * Remove section id from all tab format settings
      *
-     * @param $course
-     * @param $section2remove
+     * @param stdClass $course
+     * @param stdClass $section2remove
      * @param $settings
      * @return mixed
      */
@@ -306,8 +305,8 @@ class format_weeks2 extends format_weeks {
     /**
      * Switch to show section0 always on top of the tabs
      *
-     * @param $settings
-     * @param $value
+     * @param array $settings
+     * @param string $value
      * @return mixed
      */
     public function sectionzeroswitch($settings, $value) {
@@ -345,8 +344,8 @@ class format_weeks2 extends format_weeks {
     /**
      * Remove traces of a deleted section from tabs where needed
      *
-     * @param bool $section
-     * @param bool $sectionid
+     * @param stdClass $section
+     * @param int $sectionid
      * @return bool
      * @throws dml_exception
      */
@@ -393,8 +392,8 @@ class format_weeks2 extends format_weeks {
     /**
      * Remove the section ID from tabs
      *
-     * @param $option
-     * @param $sectionid
+     * @param stdClass $option
+     * @param int $sectionid
      * @throws dml_exception
      */
     public function remove_sectionid($option, $sectionid) {
@@ -415,8 +414,8 @@ class format_weeks2 extends format_weeks {
     /**
      * Remove the section number from tabs
      *
-     * @param $option
-     * @param $sectionnum
+     * @param stdClass $option
+     * @param int $sectionnum
      * @throws dml_exception
      */
     public function remove_sectionnum($option, $sectionnum) {

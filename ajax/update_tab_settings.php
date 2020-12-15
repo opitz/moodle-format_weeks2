@@ -27,10 +27,10 @@ require_login();
 /**
  * Update the tab settings in the course format options table
  *
- * @param $courseid
- * @param $tabid
- * @param $sections
- * @param $sectionnums
+ * @param int $courseid
+ * @param int $tabid
+ * @param stdClass $sections
+ * @param string $sectionnums
  * @return string
  * @throws coding_exception
  * @throws dml_exception

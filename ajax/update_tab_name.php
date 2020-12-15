@@ -27,9 +27,9 @@ require_login();
 /**
  * Update the name of a given tab
  *
- * @param $courseid
- * @param $tabid
- * @param $tabname
+ * @param int $courseid
+ * @param int $tabid
+ * @param string $tabname
  * @return string
  * @throws coding_exception
  * @throws dml_exception

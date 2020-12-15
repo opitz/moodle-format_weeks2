@@ -26,8 +26,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot.'/course/format/weeks/renderer.php');
 
 /**
- * Basic renderer for weeks2 format.
- * with added tab-ability
+ * Basic renderer for weeks2 format with added tab-ability
  *
  * @copyright 2018 Matthias Opitz
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -127,7 +126,7 @@ class format_weeks2_renderer extends format_weeks_renderer {
     /**
      * Get the toggle sequence of a given course for the current user
      *
-     * @param $course
+     * @param stdClass $course
      * @return string
      * @throws dml_exception
      */
@@ -144,9 +143,9 @@ class format_weeks2_renderer extends format_weeks_renderer {
     /**
      * Prepare the tabs for rendering.
      *
-     * @param $course
-     * @param $formatoptions
-     * @param $sections
+     * @param stdClass $course
+     * @param array $formatoptions
+     * @param stdClass $sections
      * @return array
      * @throws coding_exception
      * @throws dml_exception
@@ -211,7 +210,7 @@ class format_weeks2_renderer extends format_weeks_renderer {
     /**
      * Render the tabs in sequence order if present or ascending otherwise.
      *
-     * @param $formatoptions
+     * @param array $formatoptions
      * @return string
      */
     public function render_tabs($formatoptions) {
@@ -244,7 +243,7 @@ class format_weeks2_renderer extends format_weeks_renderer {
     /**
      * Render a standard tab.
      *
-     * @param $tab
+     * @param stdClass $tab
      * @return bool|string
      * @throws coding_exception
      * @throws dml_exception
@@ -332,11 +331,11 @@ class format_weeks2_renderer extends format_weeks_renderer {
      * Check section IDs used in tabs and repair them if they have changed
      * - most probably because a course was imported.
      *
-     * @param $courseid
-     * @param $sectionids
-     * @param $tabsectionids
-     * @param $tabsectionnums
-     * @param $i
+     * @param int $courseid
+     * @param array $sectionids
+     * @param string $tabsectionids
+     * @param string $tabsectionnums
+     * @param int $i
      * @return array|string
      * @throws dml_exception
      */
@@ -396,10 +395,10 @@ class format_weeks2_renderer extends format_weeks_renderer {
     /**
      * Display section-0 on top of tabs if option has been checked.
      *
-     * @param $course
-     * @param $sections
-     * @param $formatoptions
-     * @param $modinfo
+     * @param stdClass $course
+     * @param stdClass $sections
+     * @param stdClass $formatoptions
+     * @param stdClass $modinfo
      * @return string
      */
     public function render_section0_ontop($course, $sections, $formatoptions, $modinfo) {
@@ -421,11 +420,11 @@ class format_weeks2_renderer extends format_weeks_renderer {
     /**
      * Render the sections of a course.
      *
-     * @param $course
-     * @param $sections
-     * @param $formatoptions
-     * @param $modinfo
-     * @param $numsections
+     * @param stdClass $course
+     * @param stdClass $sections
+     * @param stdClass $formatoptions
+     * @param stdClass $modinfo
+     * @param int $numsections
      * @return string
      */
     public function render_sections($course, $sections, $formatoptions, $modinfo, $numsections) {
@@ -463,9 +462,9 @@ class format_weeks2_renderer extends format_weeks_renderer {
     /**
      * Render a section
      *
-     * @param $course
-     * @param $section
-     * @param $formatoptions
+     * @param stdClass $course
+     * @param stdClass $section
+     * @param stdClass $formatoptions
      * @return string
      */
     public function render_section($course, $section, $formatoptions) {
@@ -589,8 +588,8 @@ class format_weeks2_renderer extends format_weeks_renderer {
     /**
      * Section body
      *
-     * @param $section
-     * @param $course
+     * @param stdClass $section
+     * @param stdClass $course
      * @return string
      */
     public function section_body($section, $course) {
@@ -621,11 +620,11 @@ class format_weeks2_renderer extends format_weeks_renderer {
     /**
      * Render hidden sections for course editors only.
      *
-     * @param $course
-     * @param $sections
-     * @param $context
-     * @param $modinfo
-     * @param $numsections
+     * @param stdClass $course
+     * @param stdClass $sections
+     * @param stdClass $context
+     * @param stdClass $modinfo
+     * @param int $numsections
      * @return string
      * @throws coding_exception
      */
@@ -650,7 +649,7 @@ class format_weeks2_renderer extends format_weeks_renderer {
     /**
      * Turn numbers into words
      *
-     * @param $string
+     * @param string $string
      * @return mixed
      */
     public function numbers2words($string) {

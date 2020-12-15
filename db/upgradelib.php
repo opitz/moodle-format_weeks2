@@ -29,9 +29,9 @@ defined('MOODLE_INTERNAL') || die();
  * different than their 'numsections' course format option.
  *
  * For courses where there are more sections than numsections, we call
- * {@link format_weeks2_upgrade_hide_extra_sections()} and
+ * format_weeks2_upgrade_hide_extra_sections() and
  * either delete or hide "orphaned" sections. For courses where there are fewer sections
- * than numsections, we call {@link format_weeks2_upgrade_add_empty_sections()} to add
+ * than numsections, we call format_weeks2_upgrade_add_empty_sections() to add
  * these sections.
  */
 function format_weeks2_upgrade_remove_numsections() {

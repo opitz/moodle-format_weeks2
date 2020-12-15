@@ -27,8 +27,8 @@ require_login();
 /**
  * Update the tab sequence
  *
- * @param $courseid
- * @param $tabseq
+ * @param int $courseid
+ * @param string $tabseq
  * @return mixed
  * @throws dml_exception
  */

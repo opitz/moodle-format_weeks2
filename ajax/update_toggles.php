@@ -27,8 +27,8 @@ require_login();
 /**
  * Update the toggles settings per user
  *
- * @param $courseid
- * @param $toggleseq
+ * @param int $courseid
+ * @param string $toggleseq
  * @return mixed
  * @throws dml_exception
  */
