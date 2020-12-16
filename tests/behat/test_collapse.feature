@@ -27,8 +27,8 @@ Feature: Sections can be collapsed and expanded in weeks2 format
 
   @javascript
   Scenario: Collapsing and uncollapsing section 1
-    When I collapse section "1"
-    Then the sectionbody of section "1" should be hidden
-    And the sectionbody of section "2" should be visible
-    And I uncollapse section "1"
-    Then the sectionbody of section "1" should be visible
+    When I collapse weekly section "1"
+    Then the sectionbody of weekly section "1" should be hidden
+    And the sectionbody of weekly section "2" should be visible
+    And I uncollapse weekly section "1"
+    Then the sectionbody of weekly section "1" should be visible

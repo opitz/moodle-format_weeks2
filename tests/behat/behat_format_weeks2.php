@@ -44,11 +44,11 @@ class behat_format_weeks2 extends behat_base {
     /**
      * Moves course section to a tab.
      *
-     * @Given /^I move section "(?P<section_number>\d+)" to tab "(?P<tab_number>\d+)"$/
+     * @Given /^I move weekly section "(?P<section_number>\d+)" to tab "(?P<tab_number>\d+)"$/
      * @param int $sectionnumber The section number
      * @param int $tabnumber The tab number
      */
-    public function i_move_section_to_tab($sectionnumber, $tabnumber) {
+    public function i_move_weekly_section_to_tab($sectionnumber, $tabnumber) {
         // Ensures the section exists.
         $xpath = $this->section_exists($sectionnumber);
 
@@ -72,6 +72,129 @@ class behat_format_weeks2 extends behat_base {
                 array($strtotab.$tabnumber, "link", $this->escape($xpath), "xpath_element")
             );
         }
+    }
+
+    /**
+     * Click on the tab with the specified tab number
+     *
+     * @Then /^I click on weekly tab "(?P<tab_number>\d+)"$/
+     * @param int $tabnumber
+     */
+    public function i_click_on_weekly_tab($tabnumber) {
+        $selector = '#tab'.$tabnumber;
+        $this->i_click_on_weekly_element($selector);
+    }
+
+    /**
+     * Click in the given DOM element
+     *
+     * @Then /^I click on weekly element "([^"]*)"$/
+     * @param string $selector
+     * @throws Exception
+     */
+    public function i_click_on_weekly_element($selector) {
+        $page = $this->getSession()->getPage();
+        $element = $page->find('css', $selector);
+
+        if (empty($element)) {
+            throw new Exception("No html element found for the selector ('$selector')");
+        }
+
+        $element->click();
+    }
+
+    /**
+     * Swapping two tabs
+     *
+     * @Given /^I swap weekly tab "(?P<movingtab_number>\d+)" with tab "(?P<targettab_number>\d+)"$/
+     * @throws DriverException The step is not available when Javascript is disabled
+     * @param int $movingtabnumber The number of the moving tab
+     * @param int $targettabnumber The number of the target tab
+     */
+    public function i_swap_weekly_tab_with_tab($movingtabnumber, $targettabnumber) {
+        if (!$this->running_javascript()) {
+            throw new DriverException('Section edit menu not available when Javascript is disabled');
+        }
+
+        // Ensure the moving tab is valid.
+        $movingtabxpath = $this->tab_exists($movingtabnumber);
+
+        // Ensure the destination is valid.
+        $targettabxpath = $this->tab_exists($targettabnumber);
+        $this->execute("behat_general::i_drag_and_i_drop_it_in",
+            array($this->escape($movingtabxpath), "xpath_element",
+                $this->escape($targettabxpath), "xpath_element")
+        );
+    }
+
+    /**
+     * Collapses a section if it is not already collapsed.
+     *
+     * @Given /^I collapse weekly_section "(?P<section_number>\d+)"$/
+     * @param string $sectionnumber
+     */
+    public function i_collapse_weekly_section($sectionnumber) {
+        // Ensures the section exists.
+        $xpath = $this->section_exists($sectionnumber);
+
+        $selector = '#section-'.$sectionnumber.' .toggler_open';
+        $this->i_click_on_weekly_element($selector);
+    }
+
+    /**
+     * Uncollapses a section if it is not already uncollapsed.
+     *
+     * @Given /^I uncollapse weekly section "(?P<section_number>\d+)"$/
+     * @param string $sectionnumber
+     */
+    public function i_uncollapse_weekly_section($sectionnumber) {
+        // Ensures the section exists.
+        $xpath = $this->section_exists($sectionnumber);
+
+        $selector = '#section-'.$sectionnumber.' .toggler_closed';
+        $this->i_click_on_weekly_element($selector);
+    }
+
+    /**
+     * Checking if the sectionbody of the given section is hidden (i.e. collapsed).
+     *
+     * @Given /^the sectionbody of weekly section "(?P<section_number>\d+)" should be hidden$/
+     * @param string $sectionnumber
+     * @throws ElementNotFoundException
+     */
+    public function the_sectionbody_of_weekly_section_should_be_hidden($sectionnumber) {
+        $sectionxpath = $this->section_exists($sectionnumber);
+        $xpath = $sectionxpath."/descendant::div[contains(@class, 'hidden')]";
+
+        // Preventive in case there is any action in progress.
+        // Adding it here because we are interacting (click) with
+        // the elements, not necessary when we just find().
+        $this->i_wait_until_section_is_available($sectionnumber);
+
+        // Section should be hidden.
+        $exception = new ExpectationException('The sectionbody is not hidden', $this->getSession());
+        $this->find('xpath', $xpath, $exception);
+    }
+
+    /**
+     * Checking if the sectionbody of the given section is visible (i.e. uncollapsed).
+     *
+     * @Given /^the sectionbody of weekly section "(?P<section_number>\d+)" should be visible/
+     * @param string $sectionnumber
+     * @throws ElementNotFoundException
+     */
+    public function the_sectionbody_of_weekly_section_should_be_visible($sectionnumber) {
+        $sectionxpath = $this->section_exists($sectionnumber);
+        $xpath = $sectionxpath."/descendant::div[not(contains(@class, 'hidden'))]";
+
+        // Preventive in case there is any action in progress.
+        // Adding it here because we are interacting (click) with
+        // the elements, not necessary when we just find().
+        $this->i_wait_until_section_is_available($sectionnumber);
+
+        // Section should be visible.
+        $exception = new ExpectationException('The sectionbody is not visible', $this->getSession());
+        $this->find('xpath', $xpath, $exception);
     }
 
     /**
@@ -160,126 +283,4 @@ class behat_format_weeks2 extends behat_base {
         return $xpath;
     }
 
-    /**
-     * Click on the tab with the specified tab number
-     *
-     * @Then /^I click on tab "(?P<tab_number>\d+)"$/
-     * @param int $tabnumber
-     */
-    public function i_click_on_tab($tabnumber) {
-        $selector = '#tab'.$tabnumber;
-        $this->i_click_on_element($selector);
-    }
-
-    /**
-     * Click in the given DOM element
-     *
-     * @Then /^I click on element "([^"]*)"$/
-     * @param string $selector
-     * @throws Exception
-     */
-    public function i_click_on_element($selector) {
-        $page = $this->getSession()->getPage();
-        $element = $page->find('css', $selector);
-
-        if (empty($element)) {
-            throw new Exception("No html element found for the selector ('$selector')");
-        }
-
-        $element->click();
-    }
-
-    /**
-     * Swapping two tabs
-     *
-     * @Given /^I swap tab "(?P<movingtab_number>\d+)" with tab "(?P<targettab_number>\d+)"$/
-     * @throws DriverException The step is not available when Javascript is disabled
-     * @param int $movingtabnumber The number of the moving tab
-     * @param int $targettabnumber The number of the target tab
-     */
-    public function i_swap_tab_with_tab($movingtabnumber, $targettabnumber) {
-        if (!$this->running_javascript()) {
-            throw new DriverException('Section edit menu not available when Javascript is disabled');
-        }
-
-        // Ensure the moving tab is valid.
-        $movingtabxpath = $this->tab_exists($movingtabnumber);
-
-        // Ensure the destination is valid.
-        $targettabxpath = $this->tab_exists($targettabnumber);
-        $this->execute("behat_general::i_drag_and_i_drop_it_in",
-            array($this->escape($movingtabxpath), "xpath_element",
-                $this->escape($targettabxpath), "xpath_element")
-        );
-    }
-
-    /**
-     * Collapses a section if it is not already collapsed.
-     *
-     * @Given /^I collapse section "(?P<section_number>\d+)"$/
-     * @param string $sectionnumber
-     */
-    public function i_collapse_section($sectionnumber) {
-        // Ensures the section exists.
-        $xpath = $this->section_exists($sectionnumber);
-
-        $selector = '#section-'.$sectionnumber.' .toggler_open';
-        $this->i_click_on_element($selector);
-    }
-
-    /**
-     * Uncollapses a section if it is not already uncollapsed.
-     *
-     * @Given /^I uncollapse section "(?P<section_number>\d+)"$/
-     * @param string $sectionnumber
-     */
-    public function i_uncollapse_section($sectionnumber) {
-        // Ensures the section exists.
-        $xpath = $this->section_exists($sectionnumber);
-
-        $selector = '#section-'.$sectionnumber.' .toggler_closed';
-        $this->i_click_on_element($selector);
-    }
-
-    /**
-     * Checking if the sectionbody of the given section is hidden (i.e. collapsed).
-     *
-     * @Given /^the sectionbody of section "(?P<section_number>\d+)" should be hidden$/
-     * @param string $sectionnumber
-     * @throws ElementNotFoundException
-     */
-    public function the_sectionbody_of_section_should_be_hidden($sectionnumber) {
-        $sectionxpath = $this->section_exists($sectionnumber);
-        $xpath = $sectionxpath."/descendant::div[contains(@class, 'hidden')]";
-
-        // Preventive in case there is any action in progress.
-        // Adding it here because we are interacting (click) with
-        // the elements, not necessary when we just find().
-        $this->i_wait_until_section_is_available($sectionnumber);
-
-        // Section should be hidden.
-        $exception = new ExpectationException('The sectionbody is not hidden', $this->getSession());
-        $this->find('xpath', $xpath, $exception);
-    }
-
-    /**
-     * Checking if the sectionbody of the given section is visible (i.e. uncollapsed).
-     *
-     * @Given /^the sectionbody of section "(?P<section_number>\d+)" should be visible/
-     * @param string $sectionnumber
-     * @throws ElementNotFoundException
-     */
-    public function the_sectionbody_of_section_should_be_visible($sectionnumber) {
-        $sectionxpath = $this->section_exists($sectionnumber);
-        $xpath = $sectionxpath."/descendant::div[not(contains(@class, 'hidden'))]";
-
-        // Preventive in case there is any action in progress.
-        // Adding it here because we are interacting (click) with
-        // the elements, not necessary when we just find().
-        $this->i_wait_until_section_is_available($sectionnumber);
-
-        // Section should be visible.
-        $exception = new ExpectationException('The sectionbody is not visible', $this->getSession());
-        $this->find('xpath', $xpath, $exception);
-    }
 }

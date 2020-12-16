@@ -25,18 +25,18 @@ Feature: Tabs can be used in weeks2 format
 
   @javascript
   Scenario: Move section 4 to tab 3 in weeks2 format and back again
-    When I move section "4" to tab "3"
+    When I move weekly section "4" to tab "3"
     Then I should see "Tab 3"
     And section "4" should be hidden
     And section "5" should be visible
-    And I click on tab "3"
+    And I click on weekly tab "3"
     Then section "4" should be visible
     And section "1" should be hidden
     And section "2" should be hidden
     And section "3" should be hidden
     And section "5" should be hidden
     And I reload the page
-    And I move section "4" to tab "0"
+    And I move weekly section "4" to tab "0"
     Then I should not see "Tab 3"
     And section "1" should be visible
     And section "2" should be visible
@@ -46,7 +46,7 @@ Feature: Tabs can be used in weeks2 format
 
   @javascript
   Scenario: Inline edit tab name in weeks2 format
-    When I move section "4" to tab "3"
+    When I move weekly section "4" to tab "3"
     And I click on "Edit tab name" "link" in the "#tab3" "css_element"
     And I set the field "New value for {a}" to "Test Tab"
     And I press key "13" in the field "New value for {a}"
@@ -59,8 +59,8 @@ Feature: Tabs can be used in weeks2 format
 
   @javascript
   Scenario: Swap tab 1 and 2
-    When I move section "4" to tab "1"
-    And I move section "5" to tab "2"
-    And I swap tab "1" with tab "2"
-    And I click on element ".tabitem:nth-child(2)"
+    When I move weekly section "4" to tab "1"
+    And I move weekly section "5" to tab "2"
+    And I swap weekly tab "1" with tab "2"
+    And I click on weekly element ".tabitem:nth-child(2)"
     Then I should see "Test choice name"
