@@ -130,7 +130,7 @@ class behat_format_weeks2 extends behat_base {
     /**
      * Collapses a section if it is not already collapsed.
      *
-     * @Given /^I collapse weekly_section "(?P<section_number>\d+)"$/
+     * @Given /^I collapse weekly section "(?P<section_number>\d+)"$/
      * @param string $sectionnumber
      */
     public function i_collapse_weekly_section($sectionnumber) {
