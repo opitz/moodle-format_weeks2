@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Renderer for outputting the weeks2 course format.
+ * Renderer for the weeks2 course format.
  *
  * @package format_weeks2
  * @copyright 2018 Matthias Opitz
@@ -564,6 +564,16 @@ class format_weeks2_renderer extends format_weeks_renderer {
                 $toggleseq = [];
             }
 
+            // Weird rearranging the array due to error with PHP below version 7.2.
+            // NO idea why this is needed - but it works.
+            if(version_compare(PHP_VERSION, '7.2.0') < 0) {
+                $toggleseq2 = array();
+                foreach ($toggleseq as $key => $value) {
+                    $toggleseq2[$key] = $value;
+                }
+                $toggleseq = $toggleseq2;
+            }
+
             $tooltipopen = get_string('tooltip_open', 'format_weeks2');
             $tooltipclosed = get_string('tooltip_closed', 'format_weeks2');
             if (isset($toggleseq[$section->id]) && $toggleseq[$section->id] === '0') {
@@ -599,6 +609,16 @@ class format_weeks2_renderer extends format_weeks_renderer {
             $toggleseq = (array) json_decode($this->toggle_seq);
         } else {
             $toggleseq = [];
+        }
+
+        // Weird rearranging the array due to error with PHP below version 7.2.
+        // NO idea why this is needed - but it works.
+        if(version_compare(PHP_VERSION, '7.2.0') < 0) {
+            $toggleseq2 = array();
+            foreach ($toggleseq as $key => $value) {
+                $toggleseq2[$key] = $value;
+            }
+            $toggleseq = $toggleseq2;
         }
 
         if ($course->coursedisplay == COURSE_DISPLAY_SINGLEPAGE && isset($toggleseq[$section->id]) &&
