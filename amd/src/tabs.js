@@ -289,7 +289,7 @@ define(['jquery', 'jqueryui'], function($) {
                     $('#ontop_area #section-0').show();
 
                     var visibleSections = $('li.section:visible').length;
-                    var hiddenSections = $('li.section.hidden:visible').length;
+                    var hiddenSections = $('li.section:visible').find('.ishidden').length;
                     if ($('.section0_ontop').length > 0) {
                         visibleSections--;
                     }
