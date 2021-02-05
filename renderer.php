@@ -566,7 +566,7 @@ class format_weeks2_renderer extends format_weeks_renderer {
 
             // Weird rearranging the array due to error with PHP below version 7.2.
             // NO idea why this is needed - but it works.
-            if(version_compare(PHP_VERSION, '7.2.0') < 0) {
+            if (version_compare(PHP_VERSION, '7.2.0') < 0) {
                 $toggleseq2 = array();
                 foreach ($toggleseq as $key => $value) {
                     $toggleseq2[$key] = $value;
@@ -613,7 +613,7 @@ class format_weeks2_renderer extends format_weeks_renderer {
 
         // Weird rearranging the array due to error with PHP below version 7.2.
         // NO idea why this is needed - but it works.
-        if(version_compare(PHP_VERSION, '7.2.0') < 0) {
+        if (version_compare(PHP_VERSION, '7.2.0') < 0) {
             $toggleseq2 = array();
             foreach ($toggleseq as $key => $value) {
                 $toggleseq2[$key] = $value;
