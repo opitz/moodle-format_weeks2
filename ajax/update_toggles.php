@@ -25,7 +25,7 @@ require_once('../../../../config.php');
 require_login();
 
 /**
- * Update the toggles settings per user
+ * Update the toggle status for each topic of the course to the users preferences
  *
  * @param int $courseid
  * @param string $toggleseq
@@ -50,7 +50,7 @@ function update_toggle_status($courseid, $toggleseq) {
     return $toggleseq;
 }
 
-if (!isset($_POST['toggle_seq']) || count($_POST['toggle_seq']) === 0) {
+if (!isset($_POST['toggle_seq']) || count(str_split($_POST['toggle_seq'])) === 0) {
     exit;
 }
 
