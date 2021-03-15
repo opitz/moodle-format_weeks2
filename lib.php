@@ -76,6 +76,19 @@ class format_weeks2 extends format_weeks {
                     'default' => $courseconfig->coursedisplay,
                     'type' => PARAM_INT,
                 ),
+                'defaultcollapse' => array(
+                    'label' => get_string('defaultcollapse', 'format_weeks2'),
+                    'element_type' => 'select',
+                    'element_attributes' => array(
+                        array(
+                            0 => get_string('defaultcollapsed', 'format_weeks2'),
+                            1 => get_string('defaultexpanded', 'format_weeks2'),
+                            2 => get_string('alwaysexpanded', 'format_weeks2')
+                        )
+                    ),
+                    'help' => 'defaultcollapse',
+                    'help_component' => 'format_qmultopics',
+                ),
                 'section0_ontop' => array(
                     'label' => get_string('section0_label', 'format_weeks2'),
                     'element_type' => 'advcheckbox',
@@ -144,7 +157,7 @@ class format_weeks2 extends format_weeks {
                     'element_attributes' => array(
                         array(
                             COURSE_DISPLAY_SINGLEPAGE => new lang_string('coursedisplay_single'),
-                            COURSE_DISPLAY_NOCOLLAPSE => get_string('coursedisplay_nocollapse', 'format_weeks2'),
+//                            COURSE_DISPLAY_NOCOLLAPSE => get_string('coursedisplay_nocollapse', 'format_weeks2'),
                             COURSE_DISPLAY_MULTIPAGE => new lang_string('coursedisplay_multi')
                         )
                     ),

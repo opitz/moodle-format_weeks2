@@ -57,7 +57,8 @@ class format_weeks2_renderer extends format_weeks_renderer {
         // Include the required JS files.
         $this->require_js();
 
-        $this->toggle_seq = $this->get_toggle_seq($course); // The toggle sequence for this user and course.
+        $this->toggleseq = $this->get_toggle_seq($course); // The toggle sequence for this user and course.
+
         $modinfo = get_fast_modinfo($course);
         $course = course_get_format($course)->get_course();
         $options = $DB->get_records('course_format_options', array('courseid' => $course->id));
@@ -130,7 +131,7 @@ class format_weeks2_renderer extends format_weeks_renderer {
      * @return string
      * @throws dml_exception
      */
-    public function get_toggle_seq($course) {
+    public function get_toggle_seq0($course) {
         global $DB, $USER;
 
         $record = $DB->get_record('user_preferences', array('userid' => $USER->id, 'name' => 'toggle_seq_'.$course->id));
@@ -138,6 +139,28 @@ class format_weeks2_renderer extends format_weeks_renderer {
             return '';
         }
         return $record->value;
+    }
+    public function get_toggle_seq($course) {
+        global $DB, $USER;
+
+        $record = $DB->get_record('user_preferences', array('userid' => $USER->id, 'name' => 'toggle_seq_'.$course->id));
+        if (!isset($record->value)) {
+            return array();
+        }
+        // Prepare the toggle sequence.
+        $toggleseq = (array) json_decode($record->value);
+
+        // Weird rearranging the array due to error with PHP below version 7.2.
+        // NO idea why this is needed - but it works.
+        if (version_compare(PHP_VERSION, '7.2.0') < 0) {
+            $toggleseq2 = array();
+            foreach ($toggleseq as $key => $value) {
+                $toggleseq2[$key] = $value;
+            }
+            $toggleseq = $toggleseq2;
+        }
+
+        return $toggleseq;
     }
 
     /**
@@ -555,7 +578,7 @@ class format_weeks2_renderer extends format_weeks_renderer {
      * @return string
      * @throws coding_exception
      */
-    public function section_title($section, $course) {
+    public function section_title0($section, $course) {
         if ($course->coursedisplay == COURSE_DISPLAY_SINGLEPAGE) {
             // Prepare the toggle.
             if (isset($this->toggle_seq)) {
@@ -594,6 +617,33 @@ class format_weeks2_renderer extends format_weeks_renderer {
 
         return $toggler.$this->render(course_get_format($course)->inplace_editable_render_section_name($section));
     }
+    public function section_title($section, $course) {
+        if ($course->coursedisplay == COURSE_DISPLAY_SINGLEPAGE &&
+            (!isset($course->defaultcollapse) || $course->defaultcollapse != 2)) {
+
+            $togglestate = (isset($this->toggleseq[$section->id]) ? $this->toggleseq[$section->id] : 0);
+            $tooltipopen = get_string('tooltip_open', 'format_weeks2');
+            $tooltipclosed = get_string('tooltip_closed', 'format_weeks2');
+
+            if ($togglestate || (isset($course->defaultcollapse) && $course->defaultcollapse)) {
+                $toggler = '<i class="toggler toggler_open fa fa-angle-down" title="'.$tooltipopen
+                    .'" style="cursor: pointer;"></i>';
+                $toggler .= '<i class="toggler toggler_closed fa fa-angle-right" title="'
+                    .$tooltipclosed.'" style="cursor: pointer; display: none;"></i>';
+            } else {
+                $toggler = '<i class="toggler toggler_open fa fa-angle-down" title="'.$tooltipopen
+                    .'" style="cursor: pointer; display: none;"></i>';
+                $toggler .= '<i class="toggler toggler_closed fa fa-angle-right" title="'.$tooltipclosed
+                    .'" style="cursor: pointer;"></i>';
+            }
+
+            $toggler .= ' ';
+        } else {
+            $toggler = '';
+        }
+
+        return $toggler.$this->render(course_get_format($course)->inplace_editable_render_section_name($section));
+    }
 
     /**
      * Section body
@@ -602,7 +652,7 @@ class format_weeks2_renderer extends format_weeks_renderer {
      * @param stdClass $course
      * @return string
      */
-    public function section_body($section, $course) {
+    public function section_body0($section, $course) {
         $o = '';
 
         if (isset($this->toggle_seq)) {
@@ -627,6 +677,29 @@ class format_weeks2_renderer extends format_weeks_renderer {
                 array('class' => 'sectionbody summary toggle_area hidden', 'style' => 'display: none;'));
         } else {
             $o .= html_writer::start_tag('div', array('class' => 'sectionbody summary toggle_area showing'));
+        }
+        if ($section->uservisible || $section->visible) {
+            // Show summary if section is available or has availability restriction information.
+            // Do not show summary if section is hidden but we still display it because of course setting.
+            $o .= $this->format_summary_text($section);
+        }
+        return $o;
+
+    }
+    protected function section_body($section, $course) {
+        $o = '';
+        $togglestate = (isset($this->toggleseq[$section->id]) ? $this->toggleseq[$section->id] : 0);
+
+        if ($course->defaultcollapse == 2 || // Collapsing has been switched off.
+            ($course->coursedisplay == COURSE_DISPLAY_SINGLEPAGE && $togglestate) ||
+            ($course->coursedisplay != COURSE_DISPLAY_SINGLEPAGE) ||
+            ($section->section == 0 && $section->name == '') ||
+            (!$togglestate && isset($course->defaultcollapse) && $course->defaultcollapse)
+        ) {
+            $o .= html_writer::start_tag('div', array('class' => 'sectionbody summary toggle_area showing'));
+        } else {
+            $o .= html_writer::start_tag('div',
+                array('class' => 'sectionbody summary toggle_area hidden', 'style' => 'display: none;'));
         }
         if ($section->uservisible || $section->visible) {
             // Show summary if section is available or has availability restriction information.
