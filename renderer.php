@@ -140,6 +140,14 @@ class format_weeks2_renderer extends format_weeks_renderer {
         }
         return $record->value;
     }
+
+    /**
+     * Return an array containing the all expanded topics for a course and the current user
+     *
+     * @param $course
+     * @return array
+     * @throws dml_exception
+     */
     public function get_toggle_seq($course) {
         global $DB, $USER;
 
