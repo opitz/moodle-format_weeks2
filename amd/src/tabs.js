@@ -91,7 +91,7 @@ define(['jquery', 'jqueryui'], function($) {
 
 // ---------------------------------------------------------------------------------------------------------------------
             var setNumsectionsCookie = function() {
-                $('#changenumsections').on('click', function(){
+                $('#changenumsections').on('click', function() {
                    // Store the number of current sections in a cookie - so we know how many have been added later
                     var numSections = $('.section.main').length;
                     sessionStorage.setItem('numSections', numSections);
@@ -520,13 +520,12 @@ define(['jquery', 'jqueryui'], function($) {
             };
 
 // ---------------------------------------------------------------------------------------------------------------------
-            // a section edit menu is clicked - to hide or show a section to students.
+            // A section edit menu is clicked - to hide or show a section to students.
             // if hiding the last section of a tab that is visible to students show a hint in the tab
             var toggleAvailiability = function() {
                 $(".section-actions .menubar .action-menu-trigger .dropdown .dropdown-menu .dropdown-item").on('click', function() {
                     var activeTab = $('.tablink.active');
                     var visibleSections = $('li.section:visible').length;
-//                    var hiddenSections = $('li.section.hidden:visible').length;
                     var hiddenSections = $('li.section:visible').find('.ishidden').length;
 
                     if ($(this).find('.menu-action-text').html().indexOf("Hide") >= 0) {
@@ -541,7 +540,8 @@ define(['jquery', 'jqueryui'], function($) {
                             hideTabHint(activeTab);
                         }
                     }
-                });};
+                });
+            };
 
 // ---------------------------------------------------------------------------------------------------------------------
             var initFunctions = function() {
@@ -560,7 +560,7 @@ define(['jquery', 'jqueryui'], function($) {
 // ---------------------------------------------------------------------------------------------------------------------
             // what to do if a tab has been dropped onto another
             var handleTabDropEvent = function(event, ui) {
-                var course_format_name = $(document).find('.course_format_name').html();
+                var courseFormatName = $(document).find('.courseFormatName').html();
                 var draggedTab = ui.draggable.find('.topictab').first();
                 var targetTab = $(this).find('.topictab').first();
 
@@ -593,9 +593,11 @@ define(['jquery', 'jqueryui'], function($) {
                 $.ajax({
                     url: "format/weeks2/ajax/update_tab_seq.php",
                     type: "POST",
-                    data: {'courseid': courseid, 'tab_seq': tabSeq, 'course_format_name': course_format_name},
+                    data: {'courseid': courseid, 'tab_seq': tabSeq, 'courseFormatName': courseFormatName},
                     success: function() {
+                        return true;
                     }});
+                return false;
             };
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -620,6 +622,7 @@ define(['jquery', 'jqueryui'], function($) {
                         }
                     }
                 }
+                return false;
             });
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -653,7 +656,7 @@ define(['jquery', 'jqueryui'], function($) {
                 var courseid = $('#courseid').attr('courseid');
                 var originCourseid = sessionStorage.getItem('courseid');
                 var tabid = null;
-                if(originCourseid !== null && originCourseid == courseid) {
+                if (originCourseid !== null && originCourseid == courseid) {
                     tabid = sessionStorage.getItem('tabid');
                 } else {
                     sessionStorage.removeItem('courseid');
@@ -674,11 +677,11 @@ define(['jquery', 'jqueryui'], function($) {
                         // Get the number of sections before new ones were added from another cookie
                         var numSections = sessionStorage.getItem('numSections');
                         sessionStorage.removeItem('numSections');
-                        if(numSections !== null) {
+                        if (numSections !== null) {
                             // Attach all new sections to the given tab
                             var tabnum = tabid.substring(3); // This is the tab number(!) where the section is moved to
                             var i = 0;
-                            $('.section.main').each(function(){
+                            $('.section.main').each(function() {
                                 i = i + 1;
                                 if (i > numSections) {
                                     // X console.log('new section id = ' + $(this).attr('id'));

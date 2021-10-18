@@ -144,7 +144,7 @@ class format_weeks2_renderer extends format_weeks_renderer {
     /**
      * Return an array containing the all expanded topics for a course and the current user
      *
-     * @param $course
+     * @param stdClass $course
      * @return array
      * @throws dml_exception
      */
