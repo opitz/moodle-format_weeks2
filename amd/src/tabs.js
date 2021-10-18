@@ -4,6 +4,10 @@ define(['jquery', 'jqueryui'], function($) {
         init: function() {
 
 // ---------------------------------------------------------------------------------------------------------------------
+            /**
+             *
+             * @param element
+             */
             function insertTabIndex(element) {
                 // Inserts the tabindex from any active tab to its visible sections to make sure they will follow
                 // directly after the tab when navigating using the TAB key
@@ -16,6 +20,9 @@ define(['jquery', 'jqueryui'], function($) {
             }
 
 // ---------------------------------------------------------------------------------------------------------------------
+            /**
+             *
+             */
             function tabnav() {
                 // Supporting navigation using the keyboard
                 $(document).keyup(function(e) {
@@ -41,6 +48,12 @@ define(['jquery', 'jqueryui'], function($) {
             }
 
 // ---------------------------------------------------------------------------------------------------------------------
+            /**
+             *
+             * @param tabnum
+             * @param sectionid
+             * @param sectionnum
+             */
             function add2tab(tabnum, sectionid, sectionnum) {
                 // Remove the section id and section number from any tab
                 $(".tablink").each(function() {
@@ -69,6 +82,10 @@ define(['jquery', 'jqueryui'], function($) {
             }
 
 // ---------------------------------------------------------------------------------------------------------------------
+            /**
+             *
+             * @param tabid
+             */
             function save2tab(tabid) {
                 // Save the new tab data to the database
                 var courseid = $('#courseid').attr('courseid');
@@ -90,6 +107,9 @@ define(['jquery', 'jqueryui'], function($) {
             }
 
 // ---------------------------------------------------------------------------------------------------------------------
+            /**
+             *
+             */
             var setNumsectionsCookie = function() {
                 $('#changenumsections').on('click', function() {
                    // Store the number of current sections in a cookie - so we know how many have been added later
@@ -99,6 +119,11 @@ define(['jquery', 'jqueryui'], function($) {
             };
 
 // ---------------------------------------------------------------------------------------------------------------------
+            /**
+             *
+             * @param text
+             * @returns {*}
+             */
             var escapeHtml = function(text) {
                 var map = {
                     '&': '&amp;',
@@ -114,7 +139,11 @@ define(['jquery', 'jqueryui'], function($) {
             };
 
 // ---------------------------------------------------------------------------------------------------------------------
-            // When a limit for the tabname is set truncate the name of the given tab to limit
+            /**
+             * When a limit for the tabname is set truncate the name of the given tab to limit
+             *
+             * @param tab
+             */
             var truncateTabname = function(tab) {
 
                 if ($('.limittabname').length > 0) {
@@ -138,6 +167,9 @@ define(['jquery', 'jqueryui'], function($) {
             };
 
 // ---------------------------------------------------------------------------------------------------------------------
+            /**
+             *
+             */
             var truncateAllTabnames = function() {
                 if ($('.limittabname').length > 0) {
                     $('.tablink').each(function() {
@@ -147,7 +179,11 @@ define(['jquery', 'jqueryui'], function($) {
             };
 
 // ---------------------------------------------------------------------------------------------------------------------
-            // When a limit for the tabname is set expand the name of the given tab to the original
+            /**
+             * When a limit for the tabname is set expand the name of the given tab to the original
+             *
+             * @param tab
+             */
             var expandTabname = function(tab) {
 
                 if ($('.limittabname').length > 0) {
@@ -181,7 +217,12 @@ define(['jquery', 'jqueryui'], function($) {
             };
 
 // ---------------------------------------------------------------------------------------------------------------------
-            // When a single section is shown under a tab use the section name as tab name
+            /**
+             * When a single section is shown under a tab use the section name as tab name
+             *
+             * @param tab
+             * @param target
+             */
             var changeTab = function(tab, target) {
                 // X console.log('single section in tab: using section name as tab name');
 
@@ -206,7 +247,9 @@ define(['jquery', 'jqueryui'], function($) {
             };
 
 // ---------------------------------------------------------------------------------------------------------------------
-            // A section name is updated...
+            /**
+             * A section name is updated...
+             */
             $(".section").on('updated', function() {
                 var newSectionname = $(this).find('.inplaceeditable').attr('data-value');
                 $(this).attr('aria-label', newSectionname);
@@ -214,7 +257,11 @@ define(['jquery', 'jqueryui'], function($) {
             });
 
 // ---------------------------------------------------------------------------------------------------------------------
-            // Restore the tab name
+            /**
+             * Restore the tab name
+             *
+             * @param tab
+             */
             var restoreTab = function(tab) {
                 // Restore the tab name from the backup
                 var theBackup = tab.parent().find('.tabname_backup');
@@ -234,7 +281,9 @@ define(['jquery', 'jqueryui'], function($) {
             };
 
 // ---------------------------------------------------------------------------------------------------------------------
-            // react to a clicked tab
+            /**
+             * React to a clicked tab
+             */
             var tabClick = function() {
                 $(".tablink").on('click', function() {
                     var courseid = $('#courseid').attr('courseid');
@@ -359,6 +408,11 @@ define(['jquery', 'jqueryui'], function($) {
             };
 
 // ---------------------------------------------------------------------------------------------------------------------
+            /**
+             * Show the tab hint
+             *
+             * @param tab
+             */
             var showTabHint = function(tab) {
                 var tabid = tab.attr('id');
                 tab.addClass('hidden-tab');
@@ -382,6 +436,11 @@ define(['jquery', 'jqueryui'], function($) {
             };
 
 // ---------------------------------------------------------------------------------------------------------------------
+            /**
+             * Hide the tab hint
+             *
+             * @param tab
+             */
             var hideTabHint = function(tab) {
                 var tabid = tab.attr('id');
                 tab.removeClass('hidden-tab');
@@ -389,7 +448,9 @@ define(['jquery', 'jqueryui'], function($) {
             };
 
 // ---------------------------------------------------------------------------------------------------------------------
-            // Moving a section to a tab by menu
+            /**
+             * Moving a section to a tab by menu
+             */
             var tabMove = function() {
                 $(".tab_mover").on('click', function() {
                     var tabnum = $(this).attr('tabnr'); // This is the tab number where the section is moved to
@@ -424,7 +485,9 @@ define(['jquery', 'jqueryui'], function($) {
             };
 
 // ---------------------------------------------------------------------------------------------------------------------
-            // Moving section0 to the ontop area
+            /**
+             * Moving section0 to the ontop area
+             */
             var moveOntop = function() {
                 $(".ontop_mover").on('click', function() {
                     $("ul#ontop_area").append($(this).closest('.section')).addClass('section0_ontop');
@@ -434,7 +497,9 @@ define(['jquery', 'jqueryui'], function($) {
             };
 
 // ---------------------------------------------------------------------------------------------------------------------
-            // Moving section0 back into line with others
+            /**
+             * Moving section0 back into line with others
+             */
             var moveInline = function() {
                 $(".inline_mover").on('click', function() {
                     var sectionid = $(this).closest('.section').attr('section-id');
@@ -454,15 +519,17 @@ define(['jquery', 'jqueryui'], function($) {
             };
 
 // ---------------------------------------------------------------------------------------------------------------------
-            // A section edit menu is clicked
-            // hide the the current tab from the tab move options of the section edit menu
-            // if this is section0 do some extra stuff
+            /**
+             * A section edit menu is clicked
+             * hide the the current tab from the tab move options of the section edit menu
+             * if this is section0 do some extra stuff
+             */
             var dropdownToggle = function() {
                 $(".menubar").on('click', function() {
                     if ($(this).parent().parent().hasClass('section_action_menu')) {
                         var sectionid = $(this).closest('.section').attr('id');
                         $('#' + sectionid + ' .tab_mover').show(); // 1st show all options
-                        // replace all tabnames with the current names shown in tabs
+                        // Replace all tabnames with the current names shown in tabs
                         // Get the current tab names
                         var tabArray = [];
                         var trackIds = []; // Tracking the tab IDs so to use each only once
@@ -518,8 +585,10 @@ define(['jquery', 'jqueryui'], function($) {
             };
 
 // ---------------------------------------------------------------------------------------------------------------------
-            // A section edit menu is clicked - to hide or show a section to students.
-            // if hiding the last section of a tab that is visible to students show a hint in the tab
+            /**
+             * A section edit menu is clicked - to hide or show a section to students.
+             * if hiding the last section of a tab that is visible to students show a hint in the tab
+             */
             var toggleAvailiability = function() {
                 $(".section-actions .menubar .action-menu-trigger .dropdown .dropdown-menu .dropdown-item").on('click', function() {
                     var activeTab = $('.tablink.active');
@@ -542,6 +611,9 @@ define(['jquery', 'jqueryui'], function($) {
             };
 
 // ---------------------------------------------------------------------------------------------------------------------
+            /**
+             * Initialize all functions
+             */
             var initFunctions = function() {
                 // Load all required functions above
                 tabClick();
@@ -556,7 +628,13 @@ define(['jquery', 'jqueryui'], function($) {
             };
 
 // ---------------------------------------------------------------------------------------------------------------------
-            // what to do if a tab has been dropped onto another
+            /**
+             * What to do if a tab has been dropped onto another
+             *
+             * @param event
+             * @param ui
+             * @returns {boolean}
+             */
             var handleTabDropEvent = function(event, ui) {
                 var courseFormatName = $(document).find('.courseFormatName').html();
                 var draggedTab = ui.draggable.find('.topictab').first();
@@ -599,7 +677,9 @@ define(['jquery', 'jqueryui'], function($) {
             };
 
 // ---------------------------------------------------------------------------------------------------------------------
-            // A link to an URL is clicked - check if there is a section ID in it and if so reveal the corresponding tab
+            /**
+             * A link to an URL is clicked - check if there is a section ID in it and if so reveal the corresponding tab
+             */
             $("a").click(function() {
                 if ($(this).attr('href') !== '#' && typeof $(this).attr('href') !== 'undefined') {
                     var sectionid = $(this).attr('href').split('#')[1];
