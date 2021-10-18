@@ -630,6 +630,10 @@ define(['jquery', 'jqueryui'], function($) {
 // ---------------------------------------------------------------------------------------------------------------------
             /**
              * What to do if a tab has been dropped onto another
+             *
+             * @param {Object} event
+             * @param {Object} ui
+             * @returns {boolean}
              */
             var handleTabDropEvent = function(event, ui) {
                 var courseFormatName = $(document).find('.courseFormatName').html();
