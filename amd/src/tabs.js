@@ -289,7 +289,9 @@ define(['jquery', 'jqueryui'], function($) {
                     $('#ontop_area #section-0').removeClass('hidden').show();
 
                     var visibleSections = $('li.section:visible').length;
-                    var hiddenSections = $('li.section:visible').find('.ishidden').length;
+                    var hiddenSections = $('li.section:visible').find('.section_availability').find('.ishidden').length;
+
+                    // If section0 is shown on top reduce the number of visible sections for this tab by 1
                     if ($('.section0_ontop').length > 0) {
                         visibleSections--;
                     }
