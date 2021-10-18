@@ -163,7 +163,6 @@ define(['jquery', 'jqueryui'], function($) {
                         } else {
                             if ($('.inplaceeditingon').length === 0) { // Don't do this while editing the tab name
                                 if ($('.inplaceeditable').length > 0) { // We are in edit mode...
-
                                     // Make sure that tab-tile matches data-value after the tab title was edited
                                     var dataValue = tab.find('.inplaceeditable').attr('data-value');
                                     if (origTabTitle !== dataValue) { // They do NOT match so make them
@@ -171,7 +170,6 @@ define(['jquery', 'jqueryui'], function($) {
                                         origTabTitle = dataValue;
                                         shortTabTitle = origTabTitle.substr(0, x) + String.fromCharCode(8230);
                                     }
-
                                     tab.find('a').html(tab.find('a').html().replace(escapeHtml(shortTabTitle), origTabTitle));
                                 } else {
                                     tab.html(tab.html().replace(escapeHtml(shortTabTitle), origTabTitle));
@@ -622,7 +620,6 @@ define(['jquery', 'jqueryui'], function($) {
                         }
                     }
                 }
-                return false;
             });
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -669,8 +666,8 @@ define(['jquery', 'jqueryui'], function($) {
 
                 // If there are visible tabs click them all once to potentially reveal any section names as tab names
                 if ($(".topictab:visible").length > 0) {
-                    if(tabid !== null && tabid != 'tab0') {
-                        // if a 'numSections' cookie is set the changenumsections url has been clicked
+                    if (tabid !== null && tabid != 'tab0') {
+                        // If a 'numSections' cookie is set the changenumsections url has been clicked
                         // while the particular tab was active and we have returned here
                         // if the tabid is other than tab0 move the newly added sections to that tab
 

@@ -95,7 +95,7 @@ jobs:
 
       - name: Grunt
         if: ${{ always() }}
-        run: moodle-plugin-ci grunt --max-lint-warnings 6
+        run: moodle-plugin-ci grunt --max-lint-warnings 8
 
       - name: Behat features
         if: ${{ always() }}
