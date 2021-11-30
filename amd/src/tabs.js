@@ -3,14 +3,13 @@ define(['jquery', 'jqueryui'], function($) {
     return {
         init: function() {
 
-// ---------------------------------------------------------------------------------------------------------------------
             /**
+             * Inserts the tabindex from any active tab to its visible sections to make sure they will follow
+             * directly after the tab when navigating using the TAB key
              *
              * @param {Object} element
              */
             function insertTabIndex(element) {
-                // Inserts the tabindex from any active tab to its visible sections to make sure they will follow
-                // directly after the tab when navigating using the TAB key
                 var tabtabindex = element.attr('tabindex');
                 if (tabtabindex > 0) {
                     $('.section.main:visible').each(function() {
@@ -19,21 +18,14 @@ define(['jquery', 'jqueryui'], function($) {
                 }
             }
 
-// ---------------------------------------------------------------------------------------------------------------------
             /**
-             *
+             * Supporting navigation using the keyboard
              */
             function tabnav() {
-                // Supporting navigation using the keyboard
                 $(document).keyup(function(e) {
                     var code = e.keyCode || e.which;
                     var focused = $(':focus');
                     // When using the TAB key to navigate the page actually click a tab when in focus to reveal its sections
-//                    if (code == '9') { // TAB key pressed
-//                        if ( typeof focused.attr('id') !== 'undefined' && focused.attr('id').indexOf("tab") > -1) {
-//                            focused.click();
-//                        }
-//                    }
                     if (code == 13) { // ENTER key pressed
                         // Click a focused tab by pressing ENTER
                         if (typeof focused.attr('id') !== 'undefined' && focused.attr('id').indexOf("tab") > -1) {
@@ -47,15 +39,14 @@ define(['jquery', 'jqueryui'], function($) {
                 });
             }
 
-// ---------------------------------------------------------------------------------------------------------------------
             /**
+             * Remove the section id and section number from any tab
              *
              * @param {number} tabnum
              * @param {number} sectionid
              * @param {number} sectionnum
              */
             function add2tab(tabnum, sectionid, sectionnum) {
-                // Remove the section id and section number from any tab
                 $(".tablink").each(function() {
                     $(this).attr('sections', $(this).attr('sections').replace("," + sectionid, ""));
                     $(this).attr('sections', $(this).attr('sections').replace(sectionid + ",", ""));
@@ -81,13 +72,12 @@ define(['jquery', 'jqueryui'], function($) {
                 }
             }
 
-// ---------------------------------------------------------------------------------------------------------------------
             /**
+             * Save the new tab data to the database
              *
              * @param {number} tabid
              */
             function save2tab(tabid) {
-                // Save the new tab data to the database
                 var courseid = $('#courseid').attr('courseid');
                 $.ajax({
                     url: "format/weeks2/ajax/update_tab_settings.php",
@@ -96,7 +86,8 @@ define(['jquery', 'jqueryui'], function($) {
                         'courseid': courseid,
                         'tabid': tabid,
                         'sections': $("#" + tabid).attr('sections'),
-                        'sectionnums': $("#" + tabid).attr('section_nums')
+                        'sectionnums': $("#" + tabid).attr('section_nums'),
+                        'sesskey': M.cfg.sesskey
                     },
                     success: function(result) {
                         if (result !== '') {
@@ -106,20 +97,18 @@ define(['jquery', 'jqueryui'], function($) {
                 });
             }
 
-// ---------------------------------------------------------------------------------------------------------------------
             /**
-             *
+             * Store the number of current sections in a cookie - so we know how many have been added later
              */
             var setNumsectionsCookie = function() {
                 $('#changenumsections').on('click', function() {
-                   // Store the number of current sections in a cookie - so we know how many have been added later
                     var numSections = $('.section.main').length;
                     sessionStorage.setItem('numSections', numSections);
                 });
             };
 
-// ---------------------------------------------------------------------------------------------------------------------
             /**
+             * Escape some HTML chars
              *
              * @param {string} text
              * @returns {*}
@@ -138,7 +127,6 @@ define(['jquery', 'jqueryui'], function($) {
                 });
             };
 
-// ---------------------------------------------------------------------------------------------------------------------
             /**
              * When a limit for the tabname is set truncate the name of the given tab to limit
              *
@@ -166,9 +154,8 @@ define(['jquery', 'jqueryui'], function($) {
                 }
             };
 
-// ---------------------------------------------------------------------------------------------------------------------
             /**
-             *
+             * Truncate all tab names
              */
             var truncateAllTabnames = function() {
                 if ($('.limittabname').length > 0) {
@@ -178,7 +165,6 @@ define(['jquery', 'jqueryui'], function($) {
                 }
             };
 
-// ---------------------------------------------------------------------------------------------------------------------
             /**
              * When a limit for the tabname is set expand the name of the given tab to the original
              *
@@ -216,7 +202,6 @@ define(['jquery', 'jqueryui'], function($) {
                 }
             };
 
-// ---------------------------------------------------------------------------------------------------------------------
             /**
              * When a single section is shown under a tab use the section name as tab name
              *
@@ -246,7 +231,6 @@ define(['jquery', 'jqueryui'], function($) {
                 }
             };
 
-// ---------------------------------------------------------------------------------------------------------------------
             /**
              * A section name is updated...
              */
@@ -256,7 +240,6 @@ define(['jquery', 'jqueryui'], function($) {
                 $('.tablink.active').click();
             });
 
-// ---------------------------------------------------------------------------------------------------------------------
             /**
              * Restore the tab name
              *
@@ -280,7 +263,6 @@ define(['jquery', 'jqueryui'], function($) {
                  // X console.log('--> restoring section headline ');
             };
 
-// ---------------------------------------------------------------------------------------------------------------------
             /**
              * React to a clicked tab
              */
@@ -351,7 +333,12 @@ define(['jquery', 'jqueryui'], function($) {
                         $.ajax({
                             url: "format/topics2/ajax/update_tab_name.php",
                             type: "POST",
-                            data: {'courseid': courseid, 'tabid': tabid, 'tab_name': genericTitle},
+                            data: {
+                                'courseid': courseid,
+                                'tabid': tabid,
+                                'tab_name': genericTitle,
+                                'sesskey': M.cfg.sesskey
+                            },
                             success: function(result) {
                                 if (result !== '') {
                                     // X console.log('Reset name of tab ID ' + tabid + ' to "' + result + '"');
@@ -407,7 +394,6 @@ define(['jquery', 'jqueryui'], function($) {
                 });
             };
 
-// ---------------------------------------------------------------------------------------------------------------------
             /**
              * Show the tab hint
              *
@@ -435,7 +421,6 @@ define(['jquery', 'jqueryui'], function($) {
                 });
             };
 
-// ---------------------------------------------------------------------------------------------------------------------
             /**
              * Hide the tab hint
              *
@@ -447,7 +432,6 @@ define(['jquery', 'jqueryui'], function($) {
                 $('#not-shown-hint-' + tabid).remove();
             };
 
-// ---------------------------------------------------------------------------------------------------------------------
             /**
              * Moving a section to a tab by menu
              */
@@ -484,7 +468,6 @@ define(['jquery', 'jqueryui'], function($) {
                 });
             };
 
-// ---------------------------------------------------------------------------------------------------------------------
             /**
              * Moving section0 to the ontop area
              */
@@ -496,7 +479,6 @@ define(['jquery', 'jqueryui'], function($) {
                 });
             };
 
-// ---------------------------------------------------------------------------------------------------------------------
             /**
              * Moving section0 back into line with others
              */
@@ -518,7 +500,6 @@ define(['jquery', 'jqueryui'], function($) {
                 });
             };
 
-// ---------------------------------------------------------------------------------------------------------------------
             /**
              * A section edit menu is clicked
              * hide the the current tab from the tab move options of the section edit menu
@@ -584,7 +565,6 @@ define(['jquery', 'jqueryui'], function($) {
                 });
             };
 
-// ---------------------------------------------------------------------------------------------------------------------
             /**
              * A section edit menu is clicked - to hide or show a section to students.
              * if hiding the last section of a tab that is visible to students show a hint in the tab
@@ -610,7 +590,6 @@ define(['jquery', 'jqueryui'], function($) {
                 });
             };
 
-// ---------------------------------------------------------------------------------------------------------------------
             /**
              * Initialize all functions
              */
@@ -627,7 +606,6 @@ define(['jquery', 'jqueryui'], function($) {
 //                Hover_tabname();
             };
 
-// ---------------------------------------------------------------------------------------------------------------------
             /**
              * What to do if a tab has been dropped onto another
              *
@@ -669,16 +647,21 @@ define(['jquery', 'jqueryui'], function($) {
                 $.ajax({
                     url: "format/weeks2/ajax/update_tab_seq.php",
                     type: "POST",
-                    data: {'courseid': courseid, 'tab_seq': tabSeq, 'courseFormatName': courseFormatName},
+                    data: {
+                        'courseid': courseid,
+                        'tab_seq': tabSeq,
+                        'courseFormatName': courseFormatName,
+                        'sesskey': M.cfg.sesskey
+                    },
                     success: function() {
                         return true;
                     }});
                 return false;
             };
 
-// ---------------------------------------------------------------------------------------------------------------------
             /**
-             * A link to an URL is clicked - check if there is a section ID in it and if so reveal the corresponding tab
+             * A link to an URL is clicked - check if there is a section ID in it
+             * and if so reveal the corresponding tab
              */
             $("a").click(function() {
                 if ($(this).attr('href') !== '#' && typeof $(this).attr('href') !== 'undefined') {
@@ -702,7 +685,9 @@ define(['jquery', 'jqueryui'], function($) {
                 }
             });
 
-// ---------------------------------------------------------------------------------------------------------------------
+            /**
+             * The document is ready
+             */
             $(document).ready(function() {
                 // X console.log('=================< weeks2/tabs.js >=================');
                 initFunctions();
