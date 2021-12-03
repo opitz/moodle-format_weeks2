@@ -79,7 +79,8 @@ define(['jquery', 'jqueryui'], function($) {
                         'courseid': courseid,
                         'tabid': tabid,
                         'sections': $("#" + tabid).attr('sections'),
-                        'sectionnums': $("#" + tabid).attr('section_nums')
+                        'sectionnums': $("#" + tabid).attr('section_nums'),
+                        'sesskey': M.cfg.sesskey
                     },
                     success: function(result) {
                         if (result !== '') {
@@ -302,7 +303,12 @@ define(['jquery', 'jqueryui'], function($) {
                         $.ajax({
                             url: "format/topics2/ajax/update_tab_name.php",
                             type: "POST",
-                            data: {'courseid': courseid, 'tabid': tabid, 'tab_name': genericTitle},
+                            data: {
+                                'courseid': courseid,
+                                'tabid': tabid,
+                                'tab_name': genericTitle,
+                                'sesskey': M.cfg.sesskey
+                            },
                             success: function(result) {
                                 if (result !== '') {
                                     // X console.log('Reset name of tab ID ' + tabid + ' to "' + result + '"');
@@ -594,7 +600,12 @@ define(['jquery', 'jqueryui'], function($) {
                 $.ajax({
                     url: "format/weeks2/ajax/update_tab_seq.php",
                     type: "POST",
-                    data: {'courseid': courseid, 'tab_seq': tabSeq, 'course_format_name': course_format_name},
+                    data: {
+                        'courseid': courseid,
+                        'tab_seq': tabSeq,
+                        'course_format_name': course_format_name,
+                        'sesskey': M.cfg.sesskey
+                    },
                     success: function() {
                     }});
             };

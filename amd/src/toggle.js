@@ -16,7 +16,11 @@ define(['jquery', 'jqueryui'], function($) {
                 $.ajax({
                     url: "format/weeks2/ajax/update_toggles.php",
                     type: "POST",
-                    data: {'courseid': courseid, 'toggle_seq': JSON.stringify(toggle_seq)},
+                    data: {
+                        'courseid': courseid,
+                        'toggle_seq': JSON.stringify(toggle_seq),
+                        'sesskey': M.cfg.sesskey
+                    },
                     success: function(result) {
                         if(result !== '') {
                             console.log('New toggle sequence: ' + result);
