@@ -95,7 +95,7 @@ $string['automaticenddate_help'] = 'If enabled, the end date for the course will
 
 $string['gnupf'] = 'Gnupf';
 
-// Toggle related
+// Toggle related.
 $string['defaultcollapse'] = 'Default collapse status';
 $string['defaultcollapsed'] = 'All topics are collapsed';
 $string['defaultexpanded'] = 'All topics are expanded';

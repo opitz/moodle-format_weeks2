@@ -140,6 +140,14 @@ class format_weeks2_renderer extends format_weeks_renderer {
         }
         return $record->value;
     }
+
+    /**
+     * Get the toggle sequence of a given course for the current user.
+     *
+     * @param array|stdClass $course
+     * @return array
+     * @throws dml_exception
+     */
     public function get_toggle_seq($course) {
         global $DB, $USER;
 
