@@ -51,9 +51,13 @@ function update_tab_seq($courseid, $tabseq) {
     return $tabseq;
 }
 
-if (!isset($_POST['tab_seq']) || count($_POST['tab_seq']) === 0) {
+require_sesskey();
+
+$courseid = required_param('courseid', PARAM_INT);
+$tabseq = required_param('tab_seq', PARAM_RAW);
+
+if (!isset($tabseq) || count($tabseq) === 0) {
     exit;
 }
 
-require_sesskey();
-echo update_tab_seq($_POST['courseid'], $_POST['tab_seq']);
+echo update_tab_seq($courseid, $tabseq);

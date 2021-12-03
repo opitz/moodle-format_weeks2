@@ -260,7 +260,7 @@ define(['jquery', 'jqueryui'], function($) {
 //                $('.sectionname').find('.toggler').show();
                 $('.toggler_edit_only').removeClass('toggler_edit_only').show();
 
-                 // X console.log('--> restoring section headline ');
+                // X console.log('--> restoring section headline ');
             };
 
             /**
@@ -462,7 +462,7 @@ define(['jquery', 'jqueryui'], function($) {
                         $("#tab" + tabnum).click();
                         $('#' + activeTabId).click();
                     } else {
-                         $("#tab" + tabnum).click();
+                        $("#tab" + tabnum).click();
                         $('#' + activeTabId).parent().hide();
                     }
                 });
@@ -541,7 +541,7 @@ define(['jquery', 'jqueryui'], function($) {
                             var tabnr = $(this).attr('tabnr');
                             var newMenuText = 'To Tab ' +
                                 (tabArray[tabnr] === '' || tabArray[tabnr] === 'Tab ' + tabnr ? tabnr : '"' + tabArray[tabnr] +
-                                ((tabArray[tabnr] === 'Tab ' + tabnr || tabnr === '0') ? '"' : '" (Tab ' + tabnr + ')'));
+                                    ((tabArray[tabnr] === 'Tab ' + tabnr || tabnr === '0') ? '"' : '" (Tab ' + tabnr + ')'));
                             $(this).find('.menu-action-text').html(newMenuText);
                         });
                         if (sectionid === 'section-0') {
