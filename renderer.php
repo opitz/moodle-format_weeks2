@@ -328,7 +328,7 @@ class format_weeks2_renderer extends format_weeks_renderer {
             $itemid = false;
         }
 
-        $tabindex = ((int) substr($tab->id, 3, 1) + 1) * 100;
+        $tabindex = 0;
         if ($tab->id == 'tab0') {
             $o .= '<span
                 data-toggle="tab" id="'.$tab->id.'"
